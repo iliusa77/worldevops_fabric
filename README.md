@@ -3,16 +3,18 @@
 CMS deployment library (on Python Fabric - http://www.fabfile.org)
 
 Modules:
-- worldevops
 - os
 - sys
-- fabtools
+- requests
 - fabric.api
 - fabric.contrib.files
 - fabric.colors
+- fabtools
+- fabtools.python
+- fabtools.system
 - unipath
-- requests
 - jinja2
+- worldevops
 
 Required versions:
 - python==2.7
