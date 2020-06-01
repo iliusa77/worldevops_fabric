@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}RM Report{% endblock %}
+
+{% block content %}
+
+<br />
+{% if cats|length > 0 %}
+
+	<!-- BOX -->
+	<div class="box border primary">
+		<div class="box-title">
+	     <h4><i class="fa fa-bars"></i>RM Price</h4>
+
+		</div>
+		<div class="box-body">
+			<table width="90%" height="88" class="table table-responsive" >
+				<thead>
+				  <tr>
+					<th>Product</th>
+					<th>Size</th>
+
+<!-- 					{% for item in cou %}
+						<th>{{ item.country }}</th>
+					{% endfor %} -->
+
+					<th>India</th>
+					<th>Indonasia</th>
+				    <th>Thailand</th>
+	                <th>Vietnam</th>
+	                <th>India Other</th>
+	              </tr>
+	              
+				</thead>
+				<tbody>
+
+
+
+
+	            {% for sz in cats %}
+				  <tr>
+
+					<td>{{ sz.yields }}</td>
+					<td>{{ sz.size }}</td>
+					<td>{{ sz.india }}</td>
+					<td>{{ sz.indonesia }}</td>
+					<td>{{ sz.thailand }}</td>
+					<td>{{ sz.vietnam }}</td>
+					<td>{{ sz.india_other }}</td>
+
+				  </tr>
+	            {% endfor %}
+
+
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<!-- /BOX -->
+{% else %}
+
+<div class="alert alert-block alert-danger fade in" style="font-size:18px; width:30%;"> No Reports To Show </div>
+
+{% endif %}
+
+{% endblock %}

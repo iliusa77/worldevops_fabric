@@ -1,0 +1,44 @@
+# This file is auto-generated during the composer install
+parameters:
+    sylius.database.driver: %(db_driver)s
+    sylius.database.host: %(db_host)s
+    sylius.database.port: %(db_port)s
+    sylius.database.name: %(db_name)s
+    sylius.database.path: null
+    sylius.database.user: %(db_user)s
+    sylius.database.password: %(db_password)s
+    sylius.mailer.transport: smtp
+    sylius.mailer.host: 127.0.0.1
+    sylius.mailer.port: null
+    sylius.mailer.user: null
+    sylius.mailer.password: null
+    sylius.secret: %(secret)s
+    sylius.locale: en_US
+    #sylius.currency: USD
+    sylius.cache:
+        type: file_system
+    sylius.phpcr.backend:
+        type: doctrinedbal
+        connection: default
+        caches:
+            meta: doctrine_cache.providers.phpcr_meta
+            nodes: doctrine_cache.providers.phpcr_nodes
+    sylius.phpcr.workspace: default
+    sylius.phpcr.user: %(phpcr_user)s
+    sylius.phpcr.pass: %(phpcr_userpwd)s
+    sylius.uploader.filesystem: sylius_image
+    sylius.currency_importer.open_exchange_rates: %(open_exchange_rates)s
+    sylius.currency_importer.ecb.base_currency: EUR
+    sylius.oauth.amazon.clientid: %(amazon_id)s
+    sylius.oauth.amazon.clientsecret: %(amazon_secret)s
+    sylius.oauth.facebook.clientid: %(fb_id)s
+    sylius.oauth.facebook.clientsecret: %(fb_secret)s
+    sylius.oauth.google.clientid: %(google_id)s
+    sylius.oauth.google.clientsecret: %(google_secret)s
+    sylius.inventory.backorders_enabled: true
+    sylius.inventory.tracking_enabled: true
+    sylius.inventory.holding.duration: '15 minutes'
+    sylius.order.allow_guest_order: false
+    sylius.order.pending.duration: '3 hours'
+    wkhtmltopdf.bin_path: /usr/bin/wkhtmltopdf
+    wkhtmltoimage.bin_path: /usr/bin/wkhtmltoimage

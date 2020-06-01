@@ -1,0 +1,48 @@
+{% extends "admin/base1.html" %}
+
+{% block title %}Add Category{% endblock %}
+
+{% block content %}
+
+<br/>
+<form action="/admin/cat_add/" method="post" role="form" style="width:25%">
+{% csrf_token %}
+
+      <div class="form-group">
+        <label for="id_category_name">Category Name</label>
+        <input type="text" name="category_name" value="" id="id_category_name" maxlength="20" class="form-control" placeholder="Enter Category Name" required style="display: inline-block; width: 50%;" />
+      <button type="submit" class="btn btn-primary form-button">Save</button>
+      </div>
+
+</form>
+
+
+
+<div style="clear:both; height:20px;"></div>
+{% if cats|length > 0 %}
+<div class="box border primary">
+<div class="box-title">
+    <h4><i class="fa fa-table"></i>Category List</h4>
+</div>
+
+<table class="table table-responsive table-hover">
+    <thead>
+        <tr><th>Category Name</th><th>Edit</th><th>Delete</th></tr>
+    </thead>
+    <tbody>
+    {% for item in cats %}
+        <tr>
+        <td>{{ item.category_name }}</td>
+        <td><a href="/admin/cat_edit/{{ item.id }}/">Edit</a></td>
+        <td><a href="/admin/cat_del/{{ item.id }}/">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endif %}
+
+<script type="text/javascript">document.getElementById("id_category_name").focus();</script>
+
+
+{% endblock %}

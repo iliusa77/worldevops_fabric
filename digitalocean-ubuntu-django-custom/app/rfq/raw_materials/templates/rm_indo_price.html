@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block title %}Add {{ country }} Price{% endblock %}
+
+{% block content %}
+
+
+<form action="/raw_materials/add_other_price2/{{ date }}/{{ country }}/" method="post" role="form" style="width:50%;">
+{% csrf_token %}
+
+<input type="hidden" name="count" value="{{ size|length }}">
+<!-- BOX -->
+<div class="box border primary">
+	<div class="box-title">
+	<h4><i></i>RM {{ country }} Price</h4>
+	</div>
+	<div class="box-body" style="padding-top: 0px; padding-bottom 15px;">
+     <form class="form-horizontal" method="POST" action="">
+    <table class="table table-responsive table-hover">
+			<thead>
+					  <tr>
+						<th>Size</th>
+						<th>Cpto Price</th>
+						<th>Rpto Price</th>
+						<th>Ezpl Price</th>
+					    <th>Cpnd Price</th>
+		                <th>Rpnd Price</th>
+		                <th>Action</th>
+		             </tr>
+          </thead>
+
+			<tbody>
+       <tbody>
+            {% for item in size %}
+			  <tr>
+                <td><input type="text" class="form-control" readonly value="{{ item.size }}" name="size{{ forloop.counter }}"></td>
+				<td><input type="text" class="form-control" name="cpto{{ forloop.counter }}"></td>
+				<td><input type="text" class="form-control" name="rpto{{ forloop.counter }}"></td>
+				<td><input type="text" class="form-control" name="ezpl{{ forloop.counter }}"></td>
+                <td><input type="text" class="form-control" name="cpnd{{ forloop.counter }}"></td>
+				<td><input type="text" class="form-control" name="rpnd{{ forloop.counter }}"></td>
+
+				<td><button class="btn btn-xs btn-danger delete"><i class="fa fa-times"></i></button></td>
+              </tr>              
+            {% endfor %}
+        </tbody>
+       </table>
+            
+         <div>
+         <button type="submit" class="btn btn-primary" style="margin-left:40%;">Submit</button>
+         <button type="reset" class="btn btn-primary" style="margin-left:5%;">Cancel</button>
+		 </div>
+          
+         
+	</form>
+</div>
+</div>
+<!-- /BOX -->
+
+{% endblock %}
+
+
+
+{% block scripts %}
+
+<script id="jsSource" type="text/javascript">
+
+$(document).ready(function () {
+    // Code adapted from http://djangosnippets.org/snippets/1389/  
+    function updateElementIndex(el, prefix, ndx) {
+        var id_regex = new RegExp('(' + prefix + '-\\d+-)');
+        var replacement = prefix + '-' + ndx + '-';
+        if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex,
+        replacement));
+        if (el.id) el.id = el.id.replace(id_regex, replacement);
+        if (el.name) el.name = el.name.replace(id_regex, replacement);
+    }
+
+    function deleteForm(btn, prefix) {
+        var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+        if (formCount > 1) {
+            // Delete the item/form
+            $(btn).parents('.item').remove();
+            var forms = $('.item'); // Get all the forms  
+            // Update the total number of forms (1 less than before)
+            $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+            var i = 0;
+            // Go through the forms and set their indices, names and IDs
+            for (formCount = forms.length; i < formCount; i++) {
+                $(forms.get(i)).children().children().each(function () {
+                    if ($(this).attr('type') == 'text') updateElementIndex(this, prefix, i);
+                });
+            }
+        } // End if
+        else {
+            alert("You have to atleast add 1 item!");
+        }
+        return false;
+    }
+
+    function addForm(btn, prefix) {
+        var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+        // You can only submit a maximum of 10 todo items 
+        if (formCount < 10) {
+            // Clone a form (without event handlers) from the first form
+            var row = $(".item:first").clone(false).get(0);
+            // Insert it after the last form
+            $(row).removeAttr('id').hide().insertAfter(".item:last").slideDown(300);
+
+            // Remove the bits we don't want in the new row/form
+            // e.g. error messages
+            $(".errorlist", row).remove();
+            $(row).children().removeClass("error");
+
+            // Relabel or rename all the relevant bits
+            $(row).children().children().each(function () {
+                updateElementIndex(this, prefix, formCount);
+                $(this).val("");
+            });
+
+            // Add an event handler for the delete item/form link 
+            $(row).find(".delete").click(function () {
+                return deleteForm(this, prefix);
+            });
+            // Update the total form count
+            $("#id_" + prefix + "-TOTAL_FORMS").val(formCount + 1);
+        } // End if
+        else {
+            alert("Sorry, you can only enter a maximum of ten items.");
+        }
+        return false;
+    }
+    // Register the click event handlers
+    $("#add").click(function () {
+        return addForm(this, "form");
+    });
+
+    $(".delete").click(function () {
+        //return deleteForm(this, "form");
+        $(this).parent().parent().remove();
+    });
+    });
+</script>
+
+
+{% endblock %}

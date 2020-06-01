@@ -1,0 +1,25 @@
+suitecrm:
+  #build: 7.2.2
+  image: worldevops/suitecrm:7.7.6
+  ports:
+    - "83:80"
+  links:
+    - db:mysql
+  environment:
+    VIRTUAL_HOST: {{sub2}}
+
+dbdata:
+  image: alpine
+  volumes:
+    - /var/lib/mysql
+  command: "true"
+
+db:
+  image: mariadb
+  volumes_from:
+    - dbdata
+  environment:
+    MYSQL_ROOT_PASSWORD: {{crmpass}}
+    MYSQL_DATABASE: suitecrm
+    MYSQL_USER: suitecrm
+    MYSQL_PASSWORD: {{crmpass}}

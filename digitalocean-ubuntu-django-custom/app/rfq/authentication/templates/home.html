@@ -1,0 +1,746 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+{% load staticfiles %}
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<title>Homepage</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link rel="stylesheet" type="text/css" href= {% static "css/cloud-admin.css" %} >
+	<link rel="stylesheet" type="text/css"  href={% static "css/themes/default.css" %} id="skin-switcher" >
+	<link rel="stylesheet" type="text/css"  href={% static "css/responsive.css" %} >
+
+	<link href={% static "font-awesome/css/font-awesome.min.css" %} rel="stylesheet">
+	<!-- ANIMATE -->
+	<link rel="stylesheet" type="text/css" href= {% static "css/animatecss/animate.min.css" %}/>
+	<!-- DATE RANGE PICKER -->
+	<link rel="stylesheet" type="text/css" href= {% static "js/bootstrap-daterangepicker/daterangepicker-bs3.css" %}/>
+	<!-- TODO -->
+	<link rel="stylesheet" type="text/css" href= {% static "js/jquery-todo/css/styles.css" %}/>
+	<!-- FULL CALENDAR -->
+	<link rel="stylesheet" type="text/css" href= {% static "js/fullcalendar/fullcalendar.min.css" %}/>
+	<!-- GRITTER -->
+	<!--<link rel="stylesheet" type="text/css" href="js/gritter/css/jquery.gritter.css" />-->
+	<!-- FONTS -->
+	<!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'> -->
+</head>
+<body>
+
+	<!-- HEADER -->
+	<header class="navbar clearfix" id="header">
+		<div class="container">
+				<div class="navbar-brand">
+					<!-- COMPANY LOGO -->
+					<a href="/">
+						<img src= {% static "img/logo/logo.png" %} alt="Cloud Admin Logo" class="img-responsive" style="position: absolute;	max-width: 60%; height: 44px; width: 120px; top: 4px; left: 70px;" />
+					</a>
+					<!-- /COMPANY LOGO -->
+					<!-- TEAM STATUS FOR MOBILE -->
+					<div class="visible-xs">
+						<a href="#" class="team-status-toggle switcher btn dropdown-toggle">
+							<i class="fa fa-users"></i>
+						</a>
+					</div>
+					<!-- /TEAM STATUS FOR MOBILE -->
+					<!-- SIDEBAR COLLAPSE -->
+					<div id="sidebar-collapse" class="sidebar-collapse btn">
+						<i class="fa fa-bars" 
+							data-icon1="fa fa-bars" 
+							data-icon2="fa fa-bars" ></i>
+					</div>
+					<!-- /SIDEBAR COLLAPSE -->
+				</div>
+				<!-- NAVBAR LEFT -->
+				<ul class="nav navbar-nav pull-left hidden-xs" id="navbar-left">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="fa fa-cog"></i>
+							<span class="name">Skins</span>
+							<i class="fa fa-angle-down"></i>
+						</a>
+						<ul class="dropdown-menu skins">
+							<li class="dropdown-title">
+								<span><i class="fa fa-leaf"></i> Theme Skins</span>
+							</li>
+							<li><a href="#" data-skin="default">Subtle (default)</a></li>
+							<li><a href="#" data-skin="night">Night</a></li>
+							<li><a href="#" data-skin="earth">Earth</a></li>
+							<li><a href="#" data-skin="utopia">Utopia</a></li>
+							<li><a href="#" data-skin="nature">Nature</a></li>
+							<li><a href="#" data-skin="graphite">Graphite</a></li>
+						 </ul>
+					</li>
+				</ul>
+				<!-- /NAVBAR LEFT -->
+				<!-- BEGIN TOP NAVIGATION MENU -->					
+				<ul class="nav navbar-nav pull-right">
+					<!-- BEGIN NOTIFICATION DROPDOWN -->	
+					<!-- <li class="dropdown" id="header-notification">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<i class="fa fa-bell"></i>
+							<span class="badge">7</span>						
+						</a>
+						<ul class="dropdown-menu notification">
+							<li class="dropdown-title">
+								<span><i class="fa fa-bell"></i> 7 Notifications</span>
+							</li>
+							<li>
+								<a href="#">
+									<span class="label label-success"><i class="fa fa-user"></i></span>
+									<span class="body">
+										<span class="message">5 users online. </span>
+										<span class="time">
+											<i class="fa fa-clock-o"></i>
+											<span>Just now</span>
+										</span>
+									</span>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<span class="label label-primary"><i class="fa fa-comment"></i></span>
+									<span class="body">
+										<span class="message">Martin commented.</span>
+										<span class="time">
+											<i class="fa fa-clock-o"></i>
+											<span>19 mins</span>
+										</span>
+									</span>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<span class="label label-warning"><i class="fa fa-lock"></i></span>
+									<span class="body">
+										<span class="message">DW1 server locked.</span>
+										<span class="time">
+											<i class="fa fa-clock-o"></i>
+											<span>32 mins</span>
+										</span>
+									</span>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<span class="label label-info"><i class="fa fa-twitter"></i></span>
+									<span class="body">
+										<span class="message">Twitter connected.</span>
+										<span class="time">
+											<i class="fa fa-clock-o"></i>
+											<span>55 mins</span>
+										</span>
+									</span>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<span class="label label-danger"><i class="fa fa-heart"></i></span>
+									<span class="body">
+										<span class="message">Jane liked. </span>
+										<span class="time">
+											<i class="fa fa-clock-o"></i>
+											<span>2 hrs</span>
+										</span>
+									</span>
+								</a>
+							</li>
+							<li>
+								<a href="#">
+									<span class="label label-warning"><i class="fa fa-exclamation-triangle"></i></span>
+									<span class="body">
+										<span class="message">Database overload.</span>
+										<span class="time">
+											<i class="fa fa-clock-o"></i>
+											<span>6 hrs</span>
+										</span>
+									</span>
+								</a>
+							</li>
+							<li class="footer">
+								<a href="#">See all notifications <i class="fa fa-arrow-circle-right"></i></a>
+							</li>
+						</ul>
+					</li> -->
+					<!-- END NOTIFICATION DROPDOWN -->
+					
+					<!-- BEGIN USER LOGIN DROPDOWN -->
+					<li class="dropdown user" id="header-user">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<!-- <img alt="" src= {% static "img/avatars/avatar3.png" %} /> -->
+							<span class="username">{% if user %}{{ user.first_name }} {{ user.last_name }}{% endif %}</span>
+							<i class="fa fa-angle-down"></i>
+						</a>
+						<ul class="dropdown-menu">
+
+							{% if user %}
+							<li><a href="/auth/logout/"><i class="fa fa-power-off"></i> Log Out</a></li>
+							{% else %}
+							<li><a href="/auth/login/"><i class="fa fa-power-off"></i> Login</a></li>
+							{% endif %}
+
+						</ul>
+					</li>
+					<!-- END USER LOGIN DROPDOWN -->
+				</ul>
+				<!-- END TOP NAVIGATION MENU -->
+		</div>
+
+	</header>
+	<!--/HEADER -->
+	
+	<!-- PAGE -->
+	<section id="page">
+				<!-- SIDEBAR -->
+				<div id="sidebar" class="sidebar">
+					<div class="sidebar-menu nav-collapse">
+						<div class="divide-20"></div>
+						<!-- SEARCH BAR -->
+						<div id="search-bar">
+							<input class="search" type="text" placeholder="Search"><i class="fa fa-search search-icon"></i>
+						</div>
+						<!-- /SEARCH BAR -->
+						
+						<!-- SIDEBAR QUICK-LAUNCH -->
+						<!-- <div id="quicklaunch">
+						<!-- /SIDEBAR QUICK-LAUNCH -->
+						
+                        <!-- SIDEBAR MENU -->
+						<ul>
+							<li>
+								<a href="/">
+								<i class="fa fa-home fa-fw"></i> <span class="menu-text">Homepage</span>
+								<span class="selected"></span>
+								</a>					
+							</li>
+
+							<!-- JT -->
+
+							{% if request.session.type|slugify == "admin" %}
+
+							<li>
+								<a href="/analytics/">
+								<i class="fa fa-bar-chart-o fa-fw"></i> <span class="menu-text">Analytics</span>
+								<span class="selected"></span>
+								</a>					
+							</li>
+
+							<li class="has-sub">
+							  <a href="javascript:;" class="">
+							  <i class="fa fa-edit fa-fw"></i> <span class="menu-text">Raw Materials</span>
+							  <span class="arrow"></span>
+							  </a>
+								<ul class="sub">
+						            <li><a class="" href="/raw_materials/get_rmdate/"><span class="sub-menu-text">RM Actual Price Movement</span></a></li>
+						            <li><a class="" href="/raw_materials/get_piedate/"><span class="sub-menu-text">Pie Chart</span></a></li>
+								</ul>
+							</li>
+
+							<li class="has-sub">
+							  <a href="javascript:;" class="">
+							  <i class="fa fa-edit fa-fw"></i> <span class="menu-text">URNER BARRY</span>
+							  <span class="arrow"></span>
+							  </a>
+								<ul class="sub">
+						            <li><a class="" href="/urner/sel_market_date/"><span class="sub-menu-text">View Market Trend</span></a></li>
+								</ul>
+							</li>
+
+						    <li class="has-sub">
+								<a href="javascript:;" class="">
+								<i class="fa fa-table fa-fw"></i> <span class="menu-text">RM Info.</span>
+								<span class="arrow"></span>
+								</a>
+								<ul class="sub">
+									<li><a class="" href="/raw_materials/date_report/"><span class="sub-menu-text">RM Report</span></a></li>
+								</ul>
+							</li>
+
+							<li class="has-sub">
+								<a href="javascript:;" class="">
+								<i class="fa fa-table fa-fw"></i> <span class="menu-text">RFQ</span>
+								<span class="arrow"></span>
+								</a>
+								<ul class="sub">
+									<li><a class="" href="/quotes/view/"><span class="sub-menu-text">View RFQ</span></a></li>
+								</ul>
+							</li>
+
+							<!-- JM -->
+							{% elif request.session.type|slugify == "superadmin" %}
+
+							<li>
+								<a href="/analytics/">
+								<i class="fa fa-bar-chart-o fa-fw"></i> <span class="menu-text">Analytics</span>
+								<span class="selected"></span>
+								</a>					
+							</li>
+
+							<li class="has-sub">
+							  <a href="javascript:;" class="">
+							  <i class="fa fa-edit fa-fw"></i> <span class="menu-text">Raw Materials</span>
+							  <span class="arrow"></span>
+							  </a>
+								<ul class="sub">
+						            <li><a class="" href="/raw_materials/get_rmdate/"><span class="sub-menu-text">RM Actual Price Movement</span></a></li>
+						            <li><a class="" href="/raw_materials/get_piedate/"><span class="sub-menu-text">Pie Chart</span></a></li>
+								</ul>
+							</li>
+
+							<li class="has-sub">
+							  <a href="javascript:;" class="">
+							  <i class="fa fa-edit fa-fw"></i> <span class="menu-text">URNER BARRY</span>
+							  <span class="arrow"></span>
+							  </a>
+								<ul class="sub">
+									<li><a class="" href="/urner/product_add/"><span class="sub-menu-text">Add/Edit Product</span></a></li>
+									<li><a class="" href="/urner/sel_date/"><span class="sub-menu-text">Add Product Details</span></a></li>
+						            <li><a class="" href="/urner/sel_market_date/"><span class="sub-menu-text">View Market Trend</span></a></li>
+								</ul>
+							</li>
+
+						    <li class="has-sub">
+								<a href="javascript:;" class="">
+								<i class="fa fa-table fa-fw"></i> <span class="menu-text">RM Info.</span>
+								<span class="arrow"></span>
+								</a>
+								<ul class="sub">
+									<li><a class="" href="/raw_materials/sel_date/"><span class="sub-menu-text">RM Price Entry</span></a></li>
+									<li><a class="" href="/raw_materials/date_report/"><span class="sub-menu-text">RM Report</span></a></li>
+								</ul>
+							</li>
+
+							
+							<li class="has-sub">
+								<a href="javascript:;" class="">
+								<i class="fa fa-table fa-fw"></i> <span class="menu-text">RFQ</span>
+								<span class="arrow"></span>
+								</a>
+								<ul class="sub">
+									<li><a class="" href="/quotes/"><span class="sub-menu-text">New RFQ</span></a></li>
+									<li><a class="" href="/quotes/view/"><span class="sub-menu-text">View RFQ</span></a></li>
+								</ul>
+							</li>
+
+						    <li class="has-sub">
+								<a href="javascript:;" class="">
+								<i class="fa fa-map-marker fa-fw"></i> <span class="menu-text">Settings</span>
+								<span class="arrow"></span>
+								</a>
+								<ul class="sub">
+									<li><a class="" href="/admin/"><span class="sub-menu-text">Manage Item</span></a></li>
+									<li><a class="" href="/auth/backup/"><span class="sub-menu-text">Backup Database</span></a></li>
+						       </ul>
+							</li>
+
+
+							<!-- Lil -->
+
+							{% elif request.session.type|slugify == "user" %}
+
+							<!-- <li class="has-sub">
+							  <a href="javascript:;" class="">
+							  <i class="fa fa-edit fa-fw"></i> <span class="menu-text">URNER BARRY</span>
+							  <span class="arrow"></span>
+							  </a>
+								<ul class="sub">
+						            <li><a class="" href="/urner/sel_market_date/"><span class="sub-menu-text">View Market Trend</span></a></li>
+								</ul>
+							</li> -->
+
+						    <!-- <li class="has-sub">
+								<a href="javascript:;" class="">
+								<i class="fa fa-table fa-fw"></i> <span class="menu-text">RM Info.</span>
+								<span class="arrow"></span>
+								</a>
+								<ul class="sub">
+									<li><a class="" href="/raw_materials/make_price/"><span class="sub-menu-text">Make Your Own Price</span></a></li>
+									<li><a class="" href="/raw_materials/date_report/"><span class="sub-menu-text">RM Report</span></a></li>
+								</ul>
+							</li> -->
+
+							
+							<li class="has-sub">
+								<a href="javascript:;" class="">
+								<i class="fa fa-table fa-fw"></i> <span class="menu-text">RFQ</span>
+								<span class="arrow"></span>
+								</a>
+								<ul class="sub">
+									<li><a class="" href="/quotes/"><span class="sub-menu-text">New RFQ</span></a></li>
+									<li><a class="" href="/quotes/view/"><span class="sub-menu-text">View RFQ</span></a></li>
+								</ul>
+							</li>
+
+						    <li class="has-sub">
+								<a href="javascript:;" class="">
+								<i class="fa fa-map-marker fa-fw"></i> <span class="menu-text">Settings</span>
+								<span class="arrow"></span>
+								</a>
+								<ul class="sub">
+									<li><a class="" href="/admin/"><span class="sub-menu-text">Manage Item</span></a></li>
+						       </ul>
+							</li>
+
+							{% endif %}
+
+						<!-- Jam -->
+
+
+							{% if request.session.type|slugify == "approver" %}
+
+							<!-- <li class="has-sub">
+							  <a href="javascript:;" class="">
+							  <i class="fa fa-edit fa-fw"></i> <span class="menu-text">URNER BARRY</span>
+							  <span class="arrow"></span>
+							  </a>
+								<ul class="sub">
+						            <li><a class="" href="/urner/sel_market_date/"><span class="sub-menu-text">View Market Trend</span></a></li>
+								</ul>
+							</li>
+
+						    <li class="has-sub">
+								<a href="javascript:;" class="">
+								<i class="fa fa-table fa-fw"></i> <span class="menu-text">RM Info.</span>
+								<span class="arrow"></span>
+								</a>
+								<ul class="sub">
+									<li><a class="" href="/raw_materials/date_report/"><span class="sub-menu-text">RM Report</span></a></li>
+								</ul>
+							</li> -->
+
+							
+							<li class="has-sub">
+								<a href="javascript:;" class="">
+								<i class="fa fa-table fa-fw"></i> <span class="menu-text">RFQ</span>
+								<span class="arrow"></span>
+								</a>
+								<ul class="sub">
+									<li><a class="" href="/quotes/view/"><span class="sub-menu-text">View RFQ</span></a></li>
+								</ul>
+							</li>
+
+							{% endif %}
+
+
+						<!-- Saj -->
+
+							{% if request.session.type|slugify == "otheruser" %}
+
+							<!-- <li class="has-sub">
+							  <a href="javascript:;" class="">
+							  <i class="fa fa-edit fa-fw"></i> <span class="menu-text">URNER BARRY</span>
+							  <span class="arrow"></span>
+							  </a>
+								<ul class="sub">
+						            <li><a class="" href="/urner/sel_market_date/"><span class="sub-menu-text">View Market Trend</span></a></li>
+								</ul>
+							</li>
+
+						    <li class="has-sub">
+								<a href="javascript:;" class="">
+								<i class="fa fa-table fa-fw"></i> <span class="menu-text">RM Info.</span>
+								<span class="arrow"></span>
+								</a>
+								<ul class="sub">
+									<li><a class="" href="/raw_materials/date_report/"><span class="sub-menu-text">RM Report</span></a></li>
+								</ul>
+							</li> -->
+
+							
+							<li class="has-sub">
+								<a href="javascript:;" class="">
+								<i class="fa fa-table fa-fw"></i> <span class="menu-text">RFQ</span>
+								<span class="arrow"></span>
+								</a>
+								<ul class="sub">
+									<li><a class="" href="/quotes/view/"><span class="sub-menu-text">View RFQ</span></a></li>
+								</ul>
+							</li>
+
+							{% endif %}
+							
+						</ul>
+						<!-- /SIDEBAR MENU -->
+                        </div>
+				</div>
+				<!-- /SIDEBAR -->
+                        
+                        
+		<div id="main-content">
+			<div class="modal fade" id="box-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+				  <div class="modal-content">
+					<div class="modal-header">
+					  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					  <h4 class="modal-title">Box Settings</h4>
+					</div>
+					<div class="modal-body">
+					  Here goes box setting content.
+					</div>
+					<div class="modal-footer">
+					  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					  <button type="button" class="btn btn-primary">Save changes</button>
+					</div>
+				  </div>
+				</div>
+			  </div>
+			<!-- /SAMPLE BOX CONFIGURATION MODAL FORM-->
+			<div class="container">
+				<div class="row">
+					<div id="content" class="col-lg-12">
+						<!-- PAGE HEADER-->
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="page-header">
+									
+									<div class="clearfix">
+										<h3 class="content-title pull-left">Welcome Home</h3>
+										<!-- DATE RANGE PICKER -->
+
+										<!-- /DATE RANGE PICKER -->
+									</div>
+									<div class="description">New Alerts</div>
+								</div>
+							</div>
+						</div>
+						<!-- /PAGE HEADER -->
+						<!-- DASHBOARD CONTENT -->
+						<div class="row">
+						
+						{% if messages %}
+						    {% for message in messages %}
+								<div class="alert alert-block alert-success fade in" style="width:50%;">
+						        {{ message }}
+						        </div>
+						        
+						    {% endfor %}
+						{% endif %}
+
+						</div>
+					   <!-- /DASHBOARD CONTENT -->
+
+						<!-- NEW ORDERS & STATISTICS -->
+						
+							<!-- STATISTICS -->
+							
+							<!-- /STATISTICS -->
+							<div class="col-md-12">
+								<div class="panel panel-default">
+
+								{% load tags %}
+
+								{% if nots|length > 0 %}
+									<div class="panel-body">
+										<table class="table table-striped table-bordered table-hover">
+										 <thead>
+											<tr>
+											   <th><i class="fa fa-bars"></i> RFQ Number</th>
+											   <th><i class="fa fa-user"></i> User</th>
+											   <th class="hidden-xs"><i class="fa fa-quote-left"></i> Date Quoted</th>
+											   <th><i class="fa fa-bars"></i> Status</th>
+											   <th><i class="fa fa-file-text"></i> Action</th>
+											</tr>
+										 </thead>
+										 <tbody>
+
+											{% for quote_info in nots %}
+											<tr>
+											   <td>RFQ/{{ quote_info.location }}/{{ quote_info.id }}</td>	
+											   <td><b>{{ quote_info.requester|friendly }}</b></td>
+											   <td class="hidden-xs">{{ quote_info.date|date:'d-m-Y' }}</td>
+
+											   <td>
+
+													{% if quote_info.status == "rfq_generated" %}
+														RFQ Recieved
+													{% elif quote_info.status == "response_received" %}
+														Response Received
+													{% elif quote_info.status == "offer_accepted" %}
+														Offer Accepted
+													{% elif quote_info.status == "counter_price_added" %}
+														Counter Received
+													{% elif quote_info.status == "generate_po" %}
+														Generate PO
+													{% elif quote_info.status == "po_issued" %}
+														PO Issued
+
+													{% elif quote_info.status == "order_complete" %}
+														Order Complete
+													{% elif quote_info.status == "order_in_production" %}
+														Order in Production
+
+													{% elif quote_info.status == "shipped" %}
+														Order Shipped
+													{% elif quote_info.status == "cancelled_by_user" %}
+														Cancelled By User
+													{% elif quote_info.status == "counter_response_received" %}
+														Counter Response Received
+													{% elif quote_info.status == "counter_offer_accepted" %}
+														Counter Offer Accepted
+													{% endif %}
+
+											   </td>
+
+											   <td><a href="/quotes/viewed_rfq/{{ quote_info.id }}/{{ quote_info.status }}/">
+											   		{% if quote_info.status == "rfq_generated" %}
+														View RFQ
+													{% elif quote_info.status == "response_received" %}
+														View Response
+													{% elif quote_info.status == "offer_accepted" %}
+														View RFQ
+													{% elif quote_info.status == "counter_price_added" %}
+														View RFQ
+													{% elif quote_info.status == "generate_po" %}
+														View RFQ
+													{% elif quote_info.status == "po_issued" %}
+														View RFQ
+													{% elif quote_info.status == "shipped" %}
+														View RFQ	
+
+													{% elif quote_info.status == "order_complete" %}
+														View RFQ
+													{% elif quote_info.status == "order_in_production" %}
+														View RFQ
+
+													{% elif quote_info.status == "cancelled_by_user" %}
+														View RFQ
+													{% elif quote_info.status == "counter_response_received" %}
+														View Counter
+													{% elif quote_info.status == "counter_offer_accepted" %}
+														View RFQ
+													{% endif %}
+											   </a></td>											   
+											</tr>
+											{% endfor %}
+
+
+											<!-- <span class="label label-warning label-sm">Pending</span>
+											<span class="label label-success label-sm">Paid</span>
+											<span class="label label-success label-sm">Paid</span>
+											<span class="label label-danger label-sm">Overdue</span>
+											<span class="label label-warning label-sm">Pending</span> -->
+										 </tbody>
+									</table>
+									{% else %}
+										<div class="alert alert-block alert-success fade in" style="font-size:25px;">No New Requests</div>
+									{% endif %}
+
+									</div>
+								</div>
+							</div>
+
+
+							{% if news|length > 100 %}
+							<div class="col-md-12">
+								<div class="alert alert-success">
+									<div id="nt-example1-container">
+										<i class="fa fa-arrow-up" id="nt-example1-prev"></i>
+						                <ul id="nt-example1" style="height: 240px; overflow: hidden;">
+
+						                {% for item in news %}
+						                	<li style="margin-top: 0px;" class="alert-block alert-danger fade in">
+						                		<div><strong>{{ item.title }}</strong></div>
+												<div>{{ item.description }}</div>
+						                	</li>
+						                {% endfor %}
+
+						            	</ul>
+						                <i class="fa fa-arrow-down" id="nt-example1-next"></i>
+						            </div>
+						         </div>
+							</div>
+				            {% endif %}
+
+
+
+						</div>
+						<!-- /NEW ORDERS & STATISTICS -->
+						<!-- /CALENDAR & CHAT -->
+						<div class="footer-tools">
+							<span class="go-top">
+								<i class="fa fa-chevron-up"></i> Top
+							</span>
+						</div>
+					</div><!-- /CONTENT-->
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--/PAGE -->
+	<!-- JAVASCRIPTS -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<!-- JQUERY -->
+	<script src= {% static "js/jquery/jquery-2.0.3.min.js" %}></script>
+	<!-- JQUERY UI-->
+	<script src= {% static "js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js" %} ></script>
+	<!-- BOOTSTRAP -->
+	<script src= {% static "bootstrap-dist/js/bootstrap.min.js" %}></script>
+	
+		
+	<!-- DATE RANGE PICKER -->
+	<script src={% static "js/bootstrap-daterangepicker/moment.min.js" %}></script>
+	
+	<script src={% static "js/bootstrap-daterangepicker/daterangepicker.min.js"%}></script>
+	<!-- SLIMSCROLL -->
+	<script type="text/javascript" src= {% static "js/jQuery-slimScroll-1.3.0/jquery.slimscroll.min.js" %}></script>
+	<!-- SLIMSCROLL -->
+	<script type="text/javascript" src= {% static "js/jQuery-slimScroll-1.3.0/jquery.slimscroll.min.js" %} ></script><script type="text/javascript" src={% static "js/jQuery-slimScroll-1.3.0/slimScrollHorizontal.min.js" %}></script>
+	<!-- BLOCK UI -->
+	<script type="text/javascript" src= {% static "js/jQuery-BlockUI/jquery.blockUI.min.js" %}></script>
+	<!-- SPARKLINES -->
+	<script type="text/javascript" src= {% static "js/sparklines/jquery.sparkline.min.js" %}></script>
+	<!-- EASY PIE CHART -->
+	<script src={% static "js/jquery-easing/jquery.easing.min.js" %}></script>
+	<script type="text/javascript" src={% static "js/easypiechart/jquery.easypiechart.min.js" %}></script>
+	<!-- FLOT CHARTS -->
+	<script src={% static "js/flot/jquery.flot.min.js" %}></script>
+	<script src={% static "js/flot/jquery.flot.time.min.js" %}></script>
+    <script src={% static "js/flot/jquery.flot.selection.min.js" %}></script>
+	<script src={% static "js/flot/jquery.flot.resize.min.js"%} ></script>
+    <script src={% static "js/flot/jquery.flot.pie.min.js" %}></script>
+    <script src={% static "js/flot/jquery.flot.stack.min.js" %}></script>
+    <script src={% static "js/flot/jquery.flot.crosshair.min.js" %}></script>
+	<!-- TODO -->
+	<script type="text/javascript" src= {% static "js/jquery-todo/js/paddystodolist.js" %}></script>
+	<!-- TIMEAGO -->
+	<script type="text/javascript" src= {% static "js/timeago/jquery.timeago.min.js" %}></script>
+	<!-- FULL CALENDAR -->
+	<script type="text/javascript" src={% static "js/fullcalendar/fullcalendar.min.js" %}></script>
+	<!-- COOKIE -->
+	<script type="text/javascript" src={% static "js/jQuery-Cookie/jquery.cookie.min.js" %}></script>
+	<!-- GRITTER -->
+	<script type="text/javascript" src={% static "js/gritter/js/jquery.gritter.min.js" %}></script>
+
+
+    <!-- Custom styles for this template -->
+    <link href={% static "assets/css/main.css" %} rel="stylesheet">
+    <link href={% static "assets/css/prism.css" %} rel="stylesheet" />
+
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src={% static "assets/js/prism.js" %}></script>
+    <script src={% static "assets/js/jquery.mCustomScrollbar.min.js" %}></script>
+    <script src={% static "assets/js/jquery.newsTicker.js" %}></script>
+
+
+	<!-- CUSTOM SCRIPT -->
+	<script src= {% static "js/script.js" %}></script>
+	<script>
+		jQuery(document).ready(function() {		
+			App.setPage("widget-box");  //Set current page
+			App.init(); //Initialise plugins and elements
+		});
+
+		var nt_example1 = $('#nt-example1').newsTicker({
+		    row_height: 80,
+		    max_rows: 3,
+		    duration: 4000,
+		    prevButton: $('#nt-example1-prev'),
+		    nextButton: $('#nt-example1-next')
+		});
+	</script>
+	<!-- /JAVASCRIPTS -->
+</body>
+</html>

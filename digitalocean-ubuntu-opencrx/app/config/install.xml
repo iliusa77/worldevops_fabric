@@ -1,0 +1,5 @@
+INSTALL_PATH=/usr/bin/java
+ANTPath=/usr/local/apache-ant-1.9.6
+INSTALL_PATH=%(project_dir)s
+
+

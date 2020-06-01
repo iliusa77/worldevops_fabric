@@ -1,0 +1,261 @@
+{% extends "base.html" %}
+
+{% block title %}REQUEST FOR QUOTE{% endblock %}
+
+{% block styles %}
+
+<style type="text/css">
+
+input[type=text]:disabled, textarea[disabled] {
+    background-color: white;
+    color: black;
+}
+table{
+  color: black;
+}
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<!-- FORMS -->
+<div class="row">
+
+    <div class="col-md-6 col-md-offset-3 view_qoute-gen">
+    
+        <div class="row">
+                                                
+            <div class="col-md-12">
+ 
+			        <form class="form-horizontal" role="form" method="post" action="/quotes/{{ quote_item.id }}/{{ quote_item.status }}/">
+              {% csrf_token %}
+
+                      <div class="form-group">
+                        <label class="col-sm-5 control-label">RFQ NO</label>
+                        <div class="col-sm-7">
+                          <input class="form-control" type="text" name="rfq_no" id="id_rfq_no" value="RFQ/Can/{{ quote_item.id }}" disabled>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-sm-5 control-label">Date</label>
+                        <div class="col-sm-7">
+                          <input class="form-control" type="text" name="date" id="id_created_date" value="{{ quote_item.date }}" disabled>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-sm-5 control-label">Office Location</label>
+                        <div class="col-sm-7">
+                         <input class="form-control" type="text" name="location" id="id_location" value="{{ quote_item.location }}" disabled>
+                        </div>
+                      </div>
+
+                      {% load tags %}
+
+                      <div class="form-group">
+                        <label class="col-sm-5 control-label">Requester</label>
+                        <div class="col-sm-7">
+                        <input type="text" class="form-control" name="requester" id="id_requester" value="{{ quote_item.requester|friendly }}"  disabled>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-sm-5 control-label">Name of Packer</label>
+                        <div class="col-sm-7">
+                        <input type="text" class="form-control" name="packer" id="id_packer" value="{{ quote_item.packer }}"  disabled>
+                     </div>
+                      </div>
+                      
+                     <div class="form-group">
+                        <label class="col-sm-5 control-label">Terms of Purchase </label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" name="terms_of_purchase" id="id_terms_of_purchase" value="{{ quote_item.terms_of_purchase }}"  disabled>                        
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                         <label class="col-sm-5 control-label">Type </label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" name="item_type" id="id_item_type" value="{{ quote_item.item_type|friendly }}"  disabled>                        
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-sm-5 control-label">Name of Customer</label>
+                        <div class="col-sm-7">
+                        <input type="text" class="form-control" name="customer" id="id_customer" value="{{ quote_item.customer }}"  disabled>
+                     </div>
+                      </div>
+
+                       <div class="form-group">
+                        <label class="col-sm-5 control-label">Terms of Sale</label>
+                        <div class="col-sm-7">
+                        <input type="text" class="form-control" name="terms_of_sale" id="id_terms_of_sale" value="{{ quote_item.terms_of_sale }}"  disabled>
+                        </div>
+                      </div>
+
+                       <div class="form-group">
+                        <label class="col-sm-5 control-label">Destination</label>
+                        <div class="col-sm-7">
+                         <input type="text" class="form-control" name="destination" id="id_destination" value="{{ quote_item.destination }}" disabled>
+                     </div>
+                      </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label">Delivery Date</label>
+                        <div class="col-sm-7">
+                          <input type="text" class="form-control" name="delivery_date" id="id_delivery_date" value="{{ quote_item.delivery_date }}" disabled>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-sm-5 control-label">RFQ Valid Date</label>
+                        <div class="col-sm-7">
+                          <input type="text" class="form-control" name="valid_date" id="id_valid_date" value="{{ quote_item.valid_date|default_if_none:'' }}" disabled>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-sm-5 control-label">PO</label>
+                        <div class="col-sm-7">
+                          <input type="text" class="form-control" name="po" id="id_po" value="{{ quote_item.po }}" disabled>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-sm-5 control-label">Container Number</label>
+                        <div class="col-sm-7">
+                          <input type="text" class="form-control" name="container_number" id="id_container_number" value="{{ quote_item.container_number|default_if_none:"" }}" {% if not access_flag %} disabled {% endif %}>
+                        </div>
+                      </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label">Specifications</label>
+                        <div class="col-sm-7">
+                           <textarea class="form-control" name="specifications" id="id_specifications" style="height: 100px;" disabled>{{ quote_item.specifications }}</textarea>
+                        </div>
+                      </div>
+
+<!--                    <div class="form-group">
+                        <label class="col-sm-5 control-label">Port of Delivery</label>
+                        <div class="col-sm-7">
+                          <input type="text" class="form-control" name="port_of_delivery" id="id_port_of_delivery" value="{{ quote_item.port_of_delivery }}" disabled>
+                        </div>
+                      </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label">Type of Delivery</label>
+                        <div class="col-sm-7">
+                          <input type="text" class="form-control" name="type_of_delivery" id="id_type_of_delivery" value="{{ quote_item.type_of_delivery }}" disabled>
+                        </div>
+                      </div> -->
+
+
+                </div>
+              </div>
+            </div>
+
+            </div>
+
+            <br />
+                                 
+            <!-- APPENDGRID -->
+
+                <div class="box border primary">
+                    <div align="center" class="box-title">
+                        <h4>ITEMS</h4>
+                        <div class="tools hidden-xs"></div>
+                    </div>
+
+                    <div class="box-body big" style="padding-right: 2%; padding-left: 2%;">
+
+                       <table class="table table-responsive table-hover">
+                        <tr>
+                            <td>Item</td>
+                            <td>Size</td>
+                            <td>Pack</td>
+                            <td>Brand</td>
+                            <td>Cases</td>
+                            <td>Qnty(Lbs)</td>
+
+                            {% if request.session.type|slugify == "admin" or request.session.type|slugify == "superadmin" or request.session.type|slugify == "user" %}
+
+                            <td>Presold Price</td>
+                            <td>Expected Selling Price</td>
+
+                            {% endif %}
+
+                            <td>Quoted Price</td>
+                            <td>Counter offer</td>
+                            <td>Final Price</td>
+                        </tr>
+
+                        {% for item in quote_item.items.all %}
+
+                        <tr>
+                            <td>{{ item.item }}</td>
+                            <td>{{ item.size }}</td>
+                            <td>{{ item.pack }}</td>
+                            <td>{{ item.brand }}</td>
+                            <td>{{ item.cases }}</td>
+                            <td>{{ item.quantity_in_lbs }}</td>
+                            
+                            {% if request.session.type|slugify == "admin" or request.session.type|slugify == "superadmin" or request.session.type|slugify == "user" %}
+
+                            <td>{{ item.indication_selling_price }} {{ item.currency }}</td>
+                            <td>{{ item.selling_price }} {{ item.currency }}</td>
+
+                            {% endif %}
+
+                            <td>{{ item.quoted_price|default_if_none:"0" }} {{ item.currency }}</td>
+                            <td>{{ item.counter_offer|default_if_none:"0" }} {{ item.currency }}</td>
+                            <td>{{ item.final_price|default_if_none:"0" }} {{ item.currency }}</td>
+                        </tr>
+
+                        {% endfor %}
+
+                        <tr>
+                            <td colspan="7"></td>
+                            <td>Approvers Remarks</td>
+                            <td>{{ quote_item.approver_remarks|default_if_none:"No Remarks" }}</td>
+                        </tr> 
+                        <tr>
+                            <td colspan="7"></td>
+                            <td>Requester Remarks</td>
+                            <td>{{ quote_item.requester_remarks|default_if_none:"No Remarks" }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="7"></td>
+                            <td>Final Remarks</td>
+                            <td>
+                                <textarea id="id_final_approver_remarks" name="final_approver_remarks" {% if not access_flag %} disabled {% endif %}></textarea>
+                            </td>
+                        </tr>
+
+                     </table>
+                     {% if access_flag %}
+                     <button type="submit" onclick="return confirm('Are you sure?');" class="btn btn-primary">Order Shipped</button>
+                     <button type="reset" class="btn btn-primary" style="margin-left:5%;">Cancel</button>
+                     {% endif %}
+                     <form>
+
+
+                    </div>
+                </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+{% load staticfiles %}
+
+{% endblock %}

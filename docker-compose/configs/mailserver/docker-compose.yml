@@ -1,0 +1,102 @@
+version: '2'
+
+services:
+
+  http:
+    # build: $FRONTEND
+    image: freeposte/$FRONTEND:$VERSION
+    restart: always
+    env_file: .env
+    ports:
+      - "$BIND_ADDRESS:84:80"
+      - "$BIND_ADDRESS:8443:443"
+    volumes:
+      - "$ROOT/certs:/certs"
+
+  redis:
+    image: redis:latest
+    restart: always
+    volumes:
+      - "$ROOT/redis:/data"
+
+  imap:
+    # build: dovecot
+    image: freeposte/dovecot:$VERSION
+    restart: always
+    env_file: .env
+    ports:
+      - "$BIND_ADDRESS:143:143"
+      - "$BIND_ADDRESS:993:993"
+    volumes:
+      - "$ROOT/freeposte:/data"
+      - "$ROOT/mail:/mail"
+      - "$ROOT/certs:/certs"
+      - "$ROOT/overrides:/overrides"
+
+  smtp:
+    # build: postfix
+    image: freeposte/postfix:$VERSION
+    restart: always
+    env_file: .env
+    ports:
+      - "$BIND_ADDRESS:25:25"
+      - "$BIND_ADDRESS:465:465"
+      - "$BIND_ADDRESS:587:587"
+    volumes:
+      - "$ROOT/freeposte:/data"
+      - "$ROOT/certs:/certs"
+      - "$ROOT/overrides:/overrides"
+
+  milter:
+    # build: rmilter
+    image: freeposte/rmilter:$VERSION
+    restart: always
+    env_file: .env
+    volumes:
+      - "$ROOT/filter:/data"
+      - "$ROOT/dkim:/dkim"
+      - "$ROOT/overrides:/overrides"
+
+  antispam:
+    # build: rspamd
+    image: freeposte/rspamd:$VERSION
+    restart: always
+    env_file: .env
+    volumes:
+      - "$ROOT/filter:/var/lib/rspamd"
+
+  antivirus:
+    # build: clamav
+    image: freeposte/clamav:$VERSION
+    restart: always
+    env_file: .env
+    volumes:
+      - "$ROOT/filter:/data"
+
+  admin:
+    # build: admin
+    image: freeposte/admin:$VERSION
+    restart: always
+    env_file: .env
+    ports:
+      - "$BIND_ADDRESS:8000:80"
+    volumes:
+      - "$ROOT/freeposte:/data"
+      - "$ROOT/dkim:/dkim"
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  webmail:
+    # build: "$WEBMAIL"
+    image: "freeposte/$WEBMAIL:$VERSION"
+    restart: always
+    env_file: .env
+    volumes:
+      - "$ROOT/webmail:/data"
+
+  fetchmail:
+    # build: fetchmail
+    image: freeposte/fetchmail:$VERSION
+    restart: always
+    env_file: .env
+    volumes:
+      - "$ROOT/freeposte:/data"

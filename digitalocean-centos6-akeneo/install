@@ -1,0 +1,64 @@
+vi /etc/selinux/config 
+reboot
+yum install -y httpd mod_ssl
+/usr/sbin/apachectl start
+vi /etc/httpd/conf/httpd.conf 
+/usr/sbin/apachectl restart
+/sbin/chkconfig httpd on
+yum install php php-mysql php-devel php-gd php-pecl-memcache php-pspell php-snmp php-xmlrpc php-xml
+/usr/sbin/apachectl restart
+mkdir akeneo
+cd akeneo/
+wget http://download.akeneo.com/pim-community-standard-v1.5-latest.tar.gz
+tar -xvf pim-community-standard-v1.5-latest.tar.gz 
+cd pim-community-standard
+cd app/
+chmod a+w cache/ logs/
+yum install php-pear php-devel httpd-devel pcre-devel gcc make
+pecl install apc
+
+#upgrade php5.3 up to php5.4
+rpm -qa | grep php
+wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm && rpm -Uvh epel-release-latest-6.noarch.rpm
+wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm && rpm -Uvh remi-release-6*.rpm
+vi /etc/yum.repos.d/remi.repo (enable = 1)
+yum -y update php*
+
+#prepare of composer
+curl -sS https://getcomposer.org/installer | php
+vi composer.json
+#add
+#{
+#    "require": {
+#        "monolog/monolog": "1.0.*"
+#    }
+#}
+php composer.phar install
+
+vi /etc/php.ini 
+#add date.timezone = Europe/Amsterdam and memory_limit = 768M
+service httpd restart
+
+#install mysql
+sudo yum install mysql-server
+sudo /sbin/service mysqld start
+sudo /usr/bin/mysql_secure_installation 
+sudo chkconfig mysqld on && service mysqld restart
+
+#add mysql db
+#$ mysql -u root -p
+#mysql> CREATE DATABASE akeneo_pim;
+#mysql> GRANT ALL PRIVILEGES ON akeneo_pim.* TO akeneo_pim@localhost IDENTIFIED BY 'akeneo_pim';
+#mysql> EXIT
+
+yum install php-mcrypt* -y
+yum install php-intl* -y
+yum install php-pecl-apc
+echo "/usr/lib64/php/modules/mcrypt.so" >> /etc/php.d/mcrypt.ini
+echo "/usr/lib64/php/modules/intl.so" >> /etc/php.d/intl.ini
+echo "/usr/lib64/php/modules/apcu.so" >> /etc/php.d/apcu.ini
+service httpd restart
+
+cd pim-community-standard
+php app/console cache:clear --env=prod
+pp/console pim:install --env=prod

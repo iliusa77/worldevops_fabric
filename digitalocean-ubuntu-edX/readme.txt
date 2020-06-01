@@ -1,0 +1,1 @@
+This script works for Ubuntu 12.04 only, Ubuntu 14.04 and higher are not supported by the vendor

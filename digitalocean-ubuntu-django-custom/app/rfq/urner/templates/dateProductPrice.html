@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}SELECT DATE{% endblock %}
+
+{% block content %}
+
+<br/>
+<form action="/urner/sel_date/" method="post" role="form" style="width:25%">
+{% csrf_token %}
+
+      <div class="form-group">
+        <label for="id_date">Date</label>
+        <input type="text" name="date" value="" id="id_date" maxlength="20" class="form-control" placeholder="Enter Date" required style="display: inline-block; width: 50%;" />
+      <button type="submit" class="btn btn-primary form-button">OK</button>
+      </div>
+
+</form>
+
+
+<script type="text/javascript">document.getElementById("id_date").focus();</script>
+
+
+{% endblock %}
+
+{% block styles %}
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+
+<script type="text/javascript">
+
+$(document).ready(function () {
+
+  $("#id_date").datepicker({ dateFormat: 'yy-mm-dd' });
+
+});
+
+</script>
+
+{% endblock %}

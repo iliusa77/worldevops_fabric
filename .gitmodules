@@ -1,0 +1,3 @@
+[submodule "fabric-scripts"]
+	path = fabric-scripts
+	url = https://github.com/AlexJF/fabric-scripts.git

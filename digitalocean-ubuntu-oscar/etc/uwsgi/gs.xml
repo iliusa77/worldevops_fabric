@@ -1,0 +1,11 @@
+<uwsgi>
+	<socket>/tmp/%(project)s-uwsgi.sock</socket>
+	<pythonpath>%(project_dir)s</pythonpath>
+	<module>%(project)s.wsgi:application</module>
+	<processes>4</processes>
+	<chdir>%(project_dir)s</chdir>
+	<virtualenv>%(venv)s</virtualenv>
+	<uid>www-data</uid>
+	<gid>www-data</gid>
+	<chmod-socket>775</chmod-socket>
+</uwsgi>

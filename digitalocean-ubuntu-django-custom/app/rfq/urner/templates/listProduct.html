@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Add Product Price{% endblock %}
+
+{% block content %}
+
+{% if cats|length > 0 %}
+
+<form action="/urner/product_list/" method="post" role="form" style="padding-right:10%;">
+{% csrf_token %}
+
+<input type="hidden" name="count" value="{{ cats|length }}">
+<input type="hidden" id="date" name="date" value="{{ date }}" />
+
+<!-- BOX -->
+<div class="box border primary">
+  <div class="box-title">
+    <h4><i class="fa fa-table"></i>Add Product Detail</h4>
+  </div>
+
+  <div class="box-body">
+    <table class="table table-responsive table-hover" id="mytable">
+        <tr>
+          <th width="58%"><div align="center">Description</div></th>
+          <th width="30%"><div align="justify">Low</div></th>
+          <th width="6%"><div align="right">Action</div></th>
+        </tr>
+
+        {% for item in cats %}
+        <tr>
+        <td><div align="center">{{ item.name }}</div></td>
+        <td>
+          <div class="col-xs-4">
+            <input type="hidden" class="form-control" name="pdt{{ forloop.counter }}" value="{{ item.id }}">
+            <input type="text" class="form-control" name="price{{ forloop.counter }}" value="">
+          </div>
+        </td>
+
+          <td>
+              <input type="button" class="btn btn-xs btn-danger delete" value="x" />
+          </td>
+
+        </tr>
+        {% endfor %}
+
+      </table>
+  </div>
+</div>
+<!-- /BOX -->
+
+      <div class="form-group" style="margin-left:60%;">
+
+        <button type="submit" class="btn btn-primary" >Submit</button>
+        <button type="reset" class="btn btn-primary" >Clear</button>
+
+      </div>
+
+</form>
+
+{% endif %}
+
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+
+$(document).ready(function (){
+
+  $(".delete").click(function(){
+    $(this).parent().parent().remove();
+  });
+
+
+});
+</script>
+
+{% endblock %}

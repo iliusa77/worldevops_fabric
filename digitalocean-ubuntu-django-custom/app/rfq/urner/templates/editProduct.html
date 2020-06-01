@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}EDIT PRODUCT{% endblock %}
+
+
+{% block content %}
+
+<div class="box border primary" style="width:30%;">
+<div class="box-title">
+    <h4><i class="fa fa-table"></i>Add Product</h4>
+</div>
+
+<form action="/urner/product_edit/{{ cid }}/" method="post" role="form" style="padding-right:10%;">
+{% csrf_token %}
+       <div class="form-group">
+           <label class="col-sm-5 control-label">Product</label>
+                <div class="col-sm-7">
+                    <input type="text" value="{{ sel }}" class="form-control" name="name" id="id_name" placeholder="Enter Item name" required>
+                </div>
+       </div>
+       <br />
+       <br />
+      <div class="form-group" style="margin-left:44%;">
+
+        <button type="submit" class="btn btn-primary" >Submit</button>
+        <button type="reset" class="btn btn-primary" >Clear</button>
+
+      </div>
+ </form>
+ </div>
+
+<script type="text/javascript">document.getElementById("id_name").focus();</script>
+
+
+{% endblock %}
+

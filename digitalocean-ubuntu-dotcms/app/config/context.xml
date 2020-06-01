@@ -1,0 +1,34 @@
+<Context path="${catalina.home}/webapps/ROOT" docBase="${catalina.home}/webapps/ROOT" reloadable="false" crossContext="true">
+<Resources allowLinking="true" />
+    <!--
+    The class loader behaviour changed on recent tomcat versions, with the new default behaviour
+     we are unable to set a -javaagent and with that we won't be able to use instrumentation, setting the
+     delegate to true will restored the loader behaviour.
+
+        "Set to true if you want the class loader to follow the standard Java2 delegation model,
+        and attempt to load classes from parent class loaders before looking inside the web
+        application.
+        Set to false (the default) to have the class loader look inside the web application
+        first, before asking parent class loaders to find requested classes or resources."
+            -http://tomcat.apache.org/tomcat-7.0-doc/config/loader.html
+    -->
+    <Loader delegate="true"/><!--https://issues.apache.org/bugzilla/show_bug.cgi?id=55943#c13-->
+
+    <Resource name="mail/MailSession" auth="Container" type="javax.mail.Session" mail.smtp.host="localhost" />
+
+    <!--
+        IMPORTANT your maxTotal number of connections should be higher than the number of server threads you
+        configured in your server.xml, if not on heavy loads you will start getting db connections errors.
+        Your number of server threads should be the sum of threads for every connector (http, https, AJP, etc)
+        in your server.xml file.
+        We recommend you set your number of connections to be your max server threads + 10
+        
+        Documentation for Resource settings:  http://commons.apache.org/proper/commons-dbcp/configuration.html
+     -->
+
+
+    %(tpl)s
+
+
+
+</Context>

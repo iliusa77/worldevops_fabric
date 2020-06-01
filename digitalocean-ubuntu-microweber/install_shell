@@ -1,0 +1,141 @@
+#Update the system and install necessary packages
+sudo apt-get update && sudo apt-get -y upgrade
+sudo apt-get install -y software-properties-common git nano curl
+
+#Install MariaDB 10.0
+sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db
+sudo add-apt-repository 'deb http://ftp.osuosl.org/pub/mariadb/repo/10.0/ubuntu trusty main'
+sudo apt-get update
+sudo apt-get install -y mariadb-server
+
+#When the installation is complete, run the following command to secure your installation:
+mysql_secure_installation
+
+Next, we need to create a database for the Microweber installation.
+mysql -uroot -p
+#MariaDB [(none)]> CREATE DATABASE microweber;
+#MariaDB [(none)]> GRANT ALL PRIVILEGES ON microweber.* TO 'microweber'@'localhost' IDENTIFIED BY 'strong_password';
+#MariaDB [(none)]> FLUSH PRIVILEGES;
+#MariaDB [(none)]> \q
+
+
+#Install PHP, Composer and required PHP modules
+#To install the latest stable version of PHP version 5.6 and all necessary modules, run:
+sudo add-apt-repository -y ppa:ondrej/php5-5.6
+sudo apt-get update
+sudo apt-get -y install php5-fpm php5-cli php5-json php5-curl php5-gd php5-mysqlnd php5-imap php5-mcrypt
+
+#Composer is a dependency manager for PHP with which you can install packages. Composer will pull in all the required libraries and dependencies you need for your project.
+curl -sS https://getcomposer.org/installer | php
+sudo mv composer.phar /usr/local/bin/composer
+
+#Install Microweber
+#Create a root directory for your Microweber using the following command:
+mkdir -p ~/myMicroweber.com/public_html
+
+#Clone the project repository from GitHub:
+git clone https://github.com/microweber/microweber.git ~/myMicroweber.com/public_html
+
+#Change to public_html the directory:
+cd  ~/myMicroweber.com/public_html
+
+#Install all PHP dependencies using composer
+composer install
+
+#Run the following command to finish the Microweber installation:
+php artisan microweber:install admin@site.com admin pass 127.0.0.1 microweber microweber strong_password
+
+#PHP-FPM configuration
+#Create a new PHP-FPM pool for your user:
+#sudo vim /etc/php5/fpm/pool.d/your_user.conf
+#[your_user]
+#user = your_user
+#group = your_user
+#listen = /var/run/php-fpm-your_user.sock
+#listen.owner = your_user
+#listen.group = your_user
+#listen.mode = 0666
+#pm = ondemand
+#pm.max_children = 5
+#pm.process_idle_timeout = 10s
+#pm.max_requests = 200
+#chdir = /
+#Do not forget to change your_user with your username.
+
+#Restart PHP-FPM:
+sudo service php5-fpm restart
+
+#Install and configure Nginx
+#Ubuntu 14.04 comes with Nginx version 1.4, to install the latest stable version of Nginx version 1.8, run:
+
+sudo add-apt-repository -y ppa:nginx/stable
+sudo apt-get update
+sudo apt-get -y install nginx
+
+#Generate a self signed ssl certificate:
+sudo mkdir -p /etc/nginx/ssl
+cd /etc/nginx/ssl
+sudo openssl genrsa -des3 -passout pass:x -out microweber.pass.key 2048
+sudo openssl rsa -passin pass:x -in microweber.pass.key -out microweber.key
+sudo rm microweber.pass.key
+sudo openssl req -new -key microweber.key -out microweber.csr
+sudo openssl x509 -req -days 365 -in microweber.csr -signkey microweber.key -out microweber.crt
+
+
+#Next, create a new Nginx server block:
+#
+#sudo vim /etc/nginx/sites-available/myMicroweber.com
+#server {
+#    listen 443;
+#    server_name myMicroweber.com;
+#    root /home/your_user/myMicroweber.com/public_html;
+#
+#    location / {
+#      try_files $uri $uri/ /index.php$is_args$args;
+#    }
+#
+#    ssl on;
+#    ssl_certificate     /etc/nginx/ssl/microweber.crt;
+#    ssl_certificate_key /etc/nginx/ssl/microweber.key;
+#    ssl_session_timeout 5m;
+#    ssl_ciphers               'AES128+EECDH:AES128+EDH:!aNULL';
+#    ssl_protocols              TLSv1 TLSv1.1 TLSv1.2;
+#    ssl_prefer_server_ciphers on;
+#
+#    access_log  /var/log/nginx/microweber.access.log;
+#    error_log   /var/log/nginx/microweber.error.log;
+#
+#    location ~ \.php$ {
+#        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+#        fastcgi_pass unix:/var/run/php-fpm-your_user.sock;
+#        fastcgi_index index.php;
+#        include fastcgi_params;
+#        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+#        fastcgi_intercept_errors off;
+#        fastcgi_buffer_size 16k;
+#        fastcgi_buffers 4 16k;
+#    }
+#
+#    location ~ /\.ht {
+#        deny all;
+#    }
+#}
+#
+#server {
+#    listen      80;
+#    server_name myMicroweber.com;
+#
+#    add_header Strict-Transport-Security max-age=2592000;
+#    rewrite ^ https://$server_name$request_uri? permanent;
+#}
+
+#Do not forget to change your_user with your username.
+
+#Activate the server block by creating a symbolic link :
+sudo ln -s /etc/nginx/sites-available/myMicroweber.com /etc/nginx/sites-enabled/myMicroweber.com
+
+#Test the Nginx configuration and restart nginx:
+sudo nginx -t
+sudo service nginx restart
+
+#source: https://www.rosehosting.com/blog/install-microweber-ubuntu-14-04/

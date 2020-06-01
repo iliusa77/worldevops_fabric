@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Select Date{% endblock %}
+
+{% block content %}
+
+<br/>
+
+<div class="box border primary" style="width:50%;">
+<div align="center" class="box-title">
+    <h4><i></i>View Market Trend</h4>
+    <div class="tools hidden-xs">
+        </div>
+</div>
+<div class="box-body big" style="padding-right: 20; padding-left:0;">
+    
+    <form action="" method="POST" class="form-horizontal" role="form" style="padding-right:10%";>
+    {% csrf_token %}
+     
+      <div class="form-group">
+        <label class="col-sm-5 control-label">Select Product</label>
+        <div class="col-sm-7">
+         <select class="form-control" name="pdt">
+
+          <option value="-1">Select</option>
+
+          {% for item in cat %}
+            <option value="{{ item.id }}">{{ item.name }}</option>
+          {% endfor %}
+
+        </select>
+     </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="col-sm-5 control-label">Select Start Date</label>
+        <div class="col-sm-7">
+          <input class="form-control" type="text" id="id_sdate" required name="sdate">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-5 control-label">Select End Date</label>
+        <div class="col-sm-7">
+          <input class="form-control" type="text" id="id_edate" required name="edate">
+        </div>                                               
+       </div>
+
+        <div class="form-group">
+    <label class="col-sm-5 control-label"></label>
+    <div class="col-sm-7">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="reset" class="btn btn-primary">Clear</button>
+     </div>
+     </div>
+    </form>
+</div>
+</div>
+
+
+
+{% endblock %}
+
+{% block styles %}
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+
+<script type="text/javascript">
+
+$(document).ready(function () {
+
+  $("#id_sdate").datepicker({ dateFormat: 'yy-mm-dd' });
+  $("#id_edate").datepicker({ dateFormat: 'yy-mm-dd' });
+
+});
+
+</script>
+
+{% endblock %}

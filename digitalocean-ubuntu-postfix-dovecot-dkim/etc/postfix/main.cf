@@ -1,0 +1,129 @@
+myhostname = {{commonname}}
+mydomain = {{domain}}
+myorigin = /etc/mailname
+inet_interfaces = all
+inet_protocols = ipv4
+mynetworks_style = host
+smtpd_banner = $myhostname ESMTP $mail_name
+biff = no
+append_dot_mydomain = no
+delay_warning_time = 4h
+readme_directory = no
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+mydestination = $myhostname localhost.$mydomain, localhost localhost.localdomain
+relayhost =
+mynetworks = 127.0.0.0/8
+mailbox_size_limit = 0
+recipient_delimiter = +
+#local_transport = virtual
+#local_recipient_maps = $virtual_mailbox_maps
+strict_rfc821_envelopes = yes
+disable_vrfy_command = yes
+queue_directory = /var/spool/postfix
+smtpd_soft_error_limit = 10
+smtpd_hard_error_limit = 15
+smtpd_error_sleep_time = 20
+anvil_rate_time_unit = 60s
+smtpd_client_connection_count_limit = 20
+smtpd_client_connection_rate_limit = 30
+smtpd_client_message_rate_limit = 30
+smtpd_client_event_limit_exceptions = 127.0.0.0/8
+smtpd_client_connection_limit_exceptions = 127.0.0.0/8
+
+maximal_queue_lifetime = 1d
+bounce_queue_lifetime = 1d
+queue_run_delay = 300s
+minimal_backoff_time = 300s
+
+# ---------------------- VIRTUAL DOMAINS START ----------------------
+virtual_alias_maps      = mysql:/etc/postfix/virtual-alias-maps.cf
+virtual_mailbox_domains = mysql:/etc/postfix/virtual-mailbox-domains.cf
+virtual_mailbox_maps    = mysql:/etc/postfix/virtual-mailbox-maps.cf
+virtual_mailbox_limit   = 104857600
+virtual_mailbox_base    = /var/vmail
+virtual_uid_maps        = static:5000
+virtual_gid_maps        = static:5000
+mailbox_size_limit = 0
+message_size_limit      = 52428800
+virtual_transport = dovecot
+dovecot_destination_recipient_limit = 1
+# ----------------------- VIRTUAL DOMAINS END -----------------------
+
+# ------------------------- SASL PART START -------------------------
+broken_sasl_auth_clients        = yes
+smtpd_helo_required             = yes
+smtpd_delay_reject              = yes
+smtpd_tls_ciphers               = high
+smtpd_client_restrictions       = permit_sasl_authenticated
+smtpd_sender_restrictions       = permit_sasl_authenticated
+smtpd_sasl_auth_enable          = yes
+smtpd_sasl_authenticated_header = yes
+smtpd_sasl_security_options     = noanonymous
+smtpd_sasl_tls_security_options = $smtpd_sasl_security_options
+smtpd_sasl_type                 = dovecot
+smtpd_sasl_path                 = private/auth-client
+# -------------------------- SASL PART END -------------------------
+
+# -------------------------- TLS PART START -------------------------
+smtp_use_tls                    = yes
+smtpd_use_tls                   = yes
+smtpd_tls_auth_only             = yes
+#smtpd_tls_CAfile                = /etc/ssl/certs/rootCA.crt
+smtpd_tls_cert_file             = /etc/ssl/certs/postfix.pem
+smtpd_tls_key_file              = /etc/ssl/private/postfix.pem
+smtpd_tls_mandatory_protocols   = !SSLv2,!SSLv3
+smtpd_tls_received_header       = yes
+smtpd_tls_loglevel              = 1
+smtpd_tls_security_level        = may
+tls_random_source               = dev:/dev/urandom
+smtpd_tls_exclude_ciphers       = aNULL, DES, 3DES, MD5, DES+MD5, RC4
+smtpd_tls_protocols             = TLSv1, SSLv3, SSLv2
+smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+smtpd_tls_session_cache_timeout = 3600s
+
+# --------------------------- TLS PART END --------------------------
+
+# ------------------ SMTPD RESTRICTIONS PART START ------------------
+disable_vrfy_command            = yes
+non_fqdn_reject_code            = 450
+invalid_hostname_reject_code    = 450
+maps_rbl_reject_code            = 450
+unverified_sender_reject_code   = 550
+smtpd_recipient_restrictions =
+ permit_mynetworks,
+ permit_sasl_authenticated,
+ reject_unauth_destination,
+ reject_invalid_hostname,
+ reject_invalid_helo_hostname,
+ warn_if_reject reject_non_fqdn_helo_hostname,
+ warn_if_reject reject_unknown_helo_hostname,
+ warn_if_reject reject_unknown_client,
+ reject_unauth_pipelining,
+ reject_non_fqdn_hostname,
+ reject_non_fqdn_sender,
+ reject_non_fqdn_recipient,
+ reject_unknown_sender_domain,
+ reject_unknown_recipient_domain,
+ permit
+
+#smtpd_sender_restrictions = reject_unknown_sender_domain,
+#    check_sender_mx_access pcre:/etc/postfix/regex_blacklist,
+#    check_sender_access pcre:/etc/postfix/regex_blacklist,
+#    check_sender_ns_access pcre:/etc/postfix/regex_blacklist,
+#    permit
+
+#smtpd_data_restrictions =
+# permit_mynetworks,
+# reject_unauth_pipelining,
+# reject_multi_recipient_bounce,
+# permit
+# ------------------- SMTPD RESTRICTIONS PART END --------------------
+
+# DKIM
+# --------------------------------------
+milter_default_action = accept
+milter_protocol = 2
+smtpd_milters = inet:localhost:8891
+non_smtpd_milters = inet:localhost:8891

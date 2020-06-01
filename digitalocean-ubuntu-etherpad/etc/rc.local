@@ -1,0 +1,24 @@
+#!/bin/sh -e
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+
+iptables -I INPUT -p tcp --dport 9002 -s 64.203.68.196 -j ACCEPT
+iptables -I INPUT -p tcp --dport 9002 -s 127.0.0.1 -j ACCEPT
+iptables -I INPUT -p tcp --dport 9002 -s 149.210.139.247 -j ACCEPT
+iptables -I INPUT -p tcp --dport 9002 -s 64.203.68.232 -j ACCEPT
+iptables -I INPUT -p tcp --dport 9002 -s 195.138.68.156 -j ACCEPT
+iptables -I INPUT -p tcp --dport 9002 -s 89.28.84.116 -j ACCEPT
+iptables -I INPUT -p tcp --dport 9002 -s 89.28.80.80 -j ACCEPT
+iptables -A INPUT -p tcp --dport 9002 -j REJECT
+
+
+exit 0

@@ -1,0 +1,35 @@
+installer:
+    admin:
+        name: %(name)s
+        password: %(password)s
+        email: %(email)s
+
+    board:
+        lang: en
+        name: My Board
+        description: My amazing new phpBB board
+
+    database:
+        dbms: %(db_driver)s
+        dbhost: %(db_host)s
+        dbport: %(db_port)s
+        dbuser: %(db_user)s
+        dbpasswd: %(db_password)s
+        dbname: %(db_name)s
+        table_prefix: phpbb_
+
+    email:
+        enabled: false
+        smtp_delivery : ~
+        smtp_host: ~
+        smtp_auth: ~
+        smtp_user: ~
+        smtp_pass: ~
+
+    server:
+        cookie_secure: false
+        server_protocol: http://
+        force_server_vars: false
+        server_name: localhost
+        server_port: 80
+        script_path: /

@@ -1,0 +1,5 @@
+user = {{user}}
+password = {{password}}
+hosts = {{hosts}}
+dbname = {{dbname}}
+query = select `maildir` from `mailbox` where `username` = '%s'

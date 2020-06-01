@@ -1,0 +1,61 @@
+sudo apt-get update
+sudo apt-get upgrade
+
+sudo apt-get install postgresql postgresql-contrib
+sudo -i -u postgres
+psql
+#postgres=# CREATE DATABASE mattermost;
+#postgres=# CREATE USER mmuser WITH PASSWORD 'mmuser_password';
+#postgres=# GRANT ALL PRIVILEGES ON DATABASE mattermost to mmuser;
+#postgres=# \q
+
+sudo vi /etc/postgresql/9.3/main/postgresql.conf
+#Uncomment ‘listen_addresses’ and change ‘localhost’ to ‘*’
+
+sudo vi /etc/postgresql/9.3/main/pg_hba.conf
+#Add the following line to the ‘IPv4 local connections’
+#host all all 10.10.10.2/32 md5
+
+#Reload Postgres database
+sudo /etc/init.d/postgresql reload
+
+#check
+#psql --host=10.10.10.1 --dbname=mattermost --username=mmuser --password
+#mattermost=> \q
+
+#Set up Mattermost Server
+
+wget https://releases.mattermost.com/3.2.0/mattermost-team-3.2.0-linux-amd64.tar.gz
+tar -xvzf mattermost-team-3.2.0-linux-amd64.tar.gz
+sudo mv mattermost /opt
+sudo mkdir -p /opt/mattermost/data
+
+sudo useradd -r mattermost -U
+sudo chown -R mattermost:mattermost /opt/mattermost
+sudo chmod -R g+w /opt/mattermost
+
+#Add yourself to the mattermost group to ensure you can edit these files:
+#sudo usermod -aG mattermost USERNAME
+
+#Configure Mattermost Server by editing the config.json file at /opt/mattermost/config
+cd /opt/mattermost/config
+
+#Edit the file by typing:
+vi config.json
+
+#replace DriverName": "mysql" with DriverName": "postgres"
+
+replace "DataSource": "mmuser:mostest@tcp(dockerhost:3306)/mattermost_test?charset=utf8mb4,utf8" with "DataSource": "postgres://mmuser:mmuser_password@10.10.10.1:5432/mattermost?sslmode=disable&connect_timeout=10"
+
+Assuming a default IP address of 10.10.10.1
+config.json contains some configuration options that are relevant to the security of your mattermost instance. Therefore you should make sure you changed all those options from the default configuration to something different. This includes, but is not limited to, the following configuration options: * PublicLinkSalt, InviteSalt, PasswordResetSalt, AtRestEncryptKey
+Optionally you may continue to edit configuration settings in config.json or use the System Console described in a later section to finish the configuration.
+Test the Mattermost Server
+
+cd /opt/mattermost/bin
+Run the Mattermost Server by typing:
+./platform
+You should see a console log like Server is listening on :8065 letting you know the service is running.
+Stop the server for now by typing ctrl-c
+Setup Mattermost to use the systemd init daemon which handles supervision of the Mattermost process
+

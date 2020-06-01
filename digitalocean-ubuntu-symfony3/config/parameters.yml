@@ -1,0 +1,12 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: %(host)s
+    database_port: %(port)s
+    database_name: %(db_name)s
+    database_user: %(db_user)s
+    database_password: %(db_pass)s
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    secret: ThisTokenIsNotSoSecretChangeIt

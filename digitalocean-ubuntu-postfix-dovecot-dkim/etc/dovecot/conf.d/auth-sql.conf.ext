@@ -1,0 +1,14 @@
+auth_mechanisms = plain login cram-md5
+
+# Аутентификация пользователей запросом к базе.
+passdb {
+  driver = sql
+  args = /etc/dovecot/dovecot-sql.conf
+}
+
+# запрос параметров почтовых пользователей из базы
+# актуально если необходимы персональные настройки
+userdb {
+  driver = sql
+  args = /etc/dovecot/dovecot-sql.conf
+}

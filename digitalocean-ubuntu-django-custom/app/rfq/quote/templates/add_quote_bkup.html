@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load staticfiles %}
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Cloud Admin | Forms</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- STYLESHEETS --><!--[if lt IE 9]><script src="js/flot/excanvas.min.js"></script><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script><![endif]-->
+    <link rel="stylesheet" type="text/css" href={% static "css/cloud-admin.css" %} >
+    <link rel="stylesheet" type="text/css"  href= {% static "css/themes/default.css" %} id="skin-switcher" >
+    <link rel="stylesheet" type="text/css"  href= {% static "css/responsive.css" %} >
+    <link href= {% static "font-awesome/css/font-awesome.min.css" %} rel="stylesheet">
+    <!-- DATE RANGE PICKER -->
+    <link rel="stylesheet" type="text/css" href= {% static "js/bootstrap-daterangepicker/daterangepicker-bs3.css" %} />
+    <!-- TYPEAHEAD -->
+    <link rel="stylesheet" type="text/css" href= {% static "js/typeahead/typeahead.css" %} />
+    <!-- FILE UPLOAD -->
+    <link rel="stylesheet" type="text/css" href= {% static "js/bootstrap-fileupload/bootstrap-fileupload.min.css" %} />
+    <!-- SELECT2 -->
+    <link rel="stylesheet" type="text/css" href={% static "js/select2/select2.min.css" %}/>
+    <!-- UNIFORM -->
+    <link rel="stylesheet" type="text/css" href={% static "js/uniform/css/uniform.default.min.css" %}/>
+    <!-- JQUERY UPLOAD -->
+    <!-- blueimp Gallery styles -->
+    <link rel="stylesheet" href= {% static "js/blueimp/gallery/blueimp-gallery.min.css" %}>
+    <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+    <link rel="stylesheet" href= {% static "js/jquery-upload/css/jquery.fileupload.css" %}>
+    <link rel="stylesheet" href={% static "js/jquery-upload/css/jquery.fileupload-ui.css" %} >
+    <!-- FONTS -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
+    <link href= {% static "css/appendGrid/jquery.appendGrid-1.4.1.css" %} rel="stylesheet"/>
+
+         <style>
+    #tblAppendGrid{
+        display:inline;
+        }
+        
+        *.ui-button {
+            display: inline-block;
+            margin-bottom: 0;
+            font-weight: normal;
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+            color:#000;
+            border: 0px solid transparent;
+            white-space: nowrap;
+            padding: 1px 1px;
+            font-size: 14px;
+            line-height: 1.428571429;
+            border-radius: 4px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -o-user-select: none;
+            user-select: none;
+        }
+    
+    </style>
+ 
+</head>
+<body>
+    {% load staticfiles %}
+    <!-- HEADER -->
+    <header class="navbar clearfix" id="header">
+        <div class="container">
+                <div class="navbar-brand">
+                    <!-- COMPANY LOGO -->
+                    <a href="index.html">
+                        <img src={% static "img/logo/logo.png" %} alt="Cloud Admin Logo" class="img-responsive" height="30" width="120">
+                    </a>
+                    <!-- /COMPANY LOGO -->
+                    <!-- TEAM STATUS FOR MOBILE -->
+                    <div class="visible-xs">
+                        <a href="#" class="team-status-toggle switcher btn dropdown-toggle">
+                            <i class="fa fa-users"></i>
+                        </a>
+                    </div>
+                    <!-- /TEAM STATUS FOR MOBILE -->
+                    <!-- SIDEBAR COLLAPSE -->
+                    <div id="sidebar-collapse" class="sidebar-collapse btn">
+                        <i class="fa fa-bars" 
+                            data-icon1="fa fa-bars" 
+                            data-icon2="fa fa-bars" ></i>
+                    </div>
+                    <!-- /SIDEBAR COLLAPSE -->
+                </div>
+                <!-- NAVBAR LEFT -->
+                <ul class="nav navbar-nav pull-left hidden-xs" id="navbar-left">
+                    <li class="dropdown">
+                        <a href="#" class="team-status-toggle dropdown-toggle tip-bottom" data-toggle="tooltip" title="Toggle Team View">
+                            <i class="fa fa-users"></i>
+                            <span class="name">Team Status</span>
+                            <i class="fa fa-angle-down"></i>
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-cog"></i>
+                            <span class="name">Skins</span>
+                            <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown-menu skins">
+                            <li class="dropdown-title">
+                                <span><i class="fa fa-leaf"></i> Theme Skins</span>
+                            </li>
+                            <li><a href="#" data-skin="default">Subtle (default)</a></li>
+                            <li><a href="#" data-skin="night">Night</a></li>
+                            <li><a href="#" data-skin="earth">Earth</a></li>
+                            <li><a href="#" data-skin="utopia">Utopia</a></li>
+                            <li><a href="#" data-skin="nature">Nature</a></li>
+                            <li><a href="#" data-skin="graphite">Graphite</a></li>
+                         </ul>
+                    </li>
+                </ul>
+                <!-- /NAVBAR LEFT -->
+                <!-- BEGIN TOP NAVIGATION MENU -->                  
+                <ul class="nav navbar-nav pull-right">
+                    <!-- BEGIN NOTIFICATION DROPDOWN -->    
+                    <li class="dropdown" id="header-notification">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-bell"></i>
+                            <span class="badge">7</span>
+                            
+                        </a>
+                        <ul class="dropdown-menu notification">
+                            <li class="dropdown-title">
+                                <span><i class="fa fa-bell"></i> 7 Notifications</span>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="label label-success"><i class="fa fa-user"></i></span>
+                                    <span class="body">
+                                        <span class="message">5 users online. </span>
+                                        <span class="time">
+                                            <i class="fa fa-clock-o"></i>
+                                            <span>Just now</span>
+                                        </span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="label label-primary"><i class="fa fa-comment"></i></span>
+                                    <span class="body">
+                                        <span class="message">Martin commented.</span>
+                                        <span class="time">
+                                            <i class="fa fa-clock-o"></i>
+                                            <span>19 mins</span>
+                                        </span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="label label-warning"><i class="fa fa-lock"></i></span>
+                                    <span class="body">
+                                        <span class="message">DW1 server locked.</span>
+                                        <span class="time">
+                                            <i class="fa fa-clock-o"></i>
+                                            <span>32 mins</span>
+                                        </span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="label label-info"><i class="fa fa-twitter"></i></span>
+                                    <span class="body">
+                                        <span class="message">Twitter connected.</span>
+                                        <span class="time">
+                                            <i class="fa fa-clock-o"></i>
+                                            <span>55 mins</span>
+                                        </span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="label label-danger"><i class="fa fa-heart"></i></span>
+                                    <span class="body">
+                                        <span class="message">Jane liked. </span>
+                                        <span class="time">
+                                            <i class="fa fa-clock-o"></i>
+                                            <span>2 hrs</span>
+                                        </span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="label label-warning"><i class="fa fa-exclamation-triangle"></i></span>
+                                    <span class="body">
+                                        <span class="message">Database overload.</span>
+                                        <span class="time">
+                                            <i class="fa fa-clock-o"></i>
+                                            <span>6 hrs</span>
+                                        </span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="footer">
+                                <a href="#">See all notifications <i class="fa fa-arrow-circle-right"></i></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- END NOTIFICATION DROPDOWN -->
+                    <!-- BEGIN INBOX DROPDOWN -->
+                    <li class="dropdown" id="header-message">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-envelope"></i>
+                        <span class="badge">3</span>
+                        </a>
+                        <ul class="dropdown-menu inbox">
+                            <li class="dropdown-title">
+                                <span><i class="fa fa-envelope-o"></i> 3 Messages</span>
+                                <span class="compose pull-right tip-right" title="Compose message"><i class="fa fa-pencil-square-o"></i></span>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img src= {% static  "img/avatars/avatar2.jpg" %} alt="" />
+                                    <span class="body">
+                                        <span class="from">Jane Doe</span>
+                                        <span class="message">
+                                        Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse mole ...
+                                        </span> 
+                                        <span class="time">
+                                            <i class="fa fa-clock-o"></i>
+                                            <span>Just Now</span>
+                                        </span>
+                                    </span>
+                                     
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img src= {% static "img/avatars/avatar1.jpg" %} alt="" />
+                                    <span class="body">
+                                        <span class="from">Vince Pelt</span>
+                                        <span class="message">
+                                        Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse mole ...
+                                        </span> 
+                                        <span class="time">
+                                            <i class="fa fa-clock-o"></i>
+                                            <span>15 min ago</span>
+                                        </span>
+                                    </span>
+                                     
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <img src= {% static "img/avatars/avatar8.jpg" %} alt="" />
+                                    <span class="body">
+                                        <span class="from">Debby Doe</span>
+                                        <span class="message">
+                                        Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse mole ...
+                                        </span> 
+                                        <span class="time">
+                                            <i class="fa fa-clock-o"></i>
+                                            <span>2 hours ago</span>
+                                        </span>
+                                    </span>
+                                     
+                                </a>
+                            </li>
+                            <li class="footer">
+                                <a href="#">See all messages <i class="fa fa-arrow-circle-right"></i></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- END INBOX DROPDOWN -->
+                    <!-- BEGIN TODO DROPDOWN -->
+                    <li class="dropdown" id="header-tasks">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-tasks"></i>
+                        <span class="badge">3</span>
+                        </a>
+                        <ul class="dropdown-menu tasks">
+                            <li class="dropdown-title">
+                                <span><i class="fa fa-check"></i> 6 tasks in progress</span>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="header clearfix">
+                                        <span class="pull-left">Software Update</span>
+                                        <span class="pull-right">60%</span>
+                                    </span>
+                                    <div class="progress">
+                                      <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                                        <span class="sr-only">60% Complete</span>
+                                      </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="header clearfix">
+                                        <span class="pull-left">Software Update</span>
+                                        <span class="pull-right">25%</span>
+                                    </span>
+                                    <div class="progress">
+                                      <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">
+                                        <span class="sr-only">25% Complete</span>
+                                      </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="header clearfix">
+                                        <span class="pull-left">Software Update</span>
+                                        <span class="pull-right">40%</span>
+                                    </span>
+                                    <div class="progress progress-striped">
+                                      <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%;">
+                                        <span class="sr-only">40% Complete</span>
+                                      </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="header clearfix">
+                                        <span class="pull-left">Software Update</span>
+                                        <span class="pull-right">70%</span>
+                                    </span>
+                                    <div class="progress progress-striped active">
+                                      <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 70%;">
+                                        <span class="sr-only">70% Complete</span>
+                                      </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="header clearfix">
+                                        <span class="pull-left">Software Update</span>
+                                        <span class="pull-right">65%</span>
+                                    </span>
+                                    <div class="progress">
+                                      <div class="progress-bar progress-bar-success" style="width: 35%">
+                                        <span class="sr-only">35% Complete (success)</span>
+                                      </div>
+                                      <div class="progress-bar progress-bar-warning" style="width: 20%">
+                                        <span class="sr-only">20% Complete (warning)</span>
+                                      </div>
+                                      <div class="progress-bar progress-bar-danger" style="width: 10%">
+                                        <span class="sr-only">10% Complete (danger)</span>
+                                      </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="footer">
+                                <a href="#">See all tasks <i class="fa fa-arrow-circle-right"></i></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- END TODO DROPDOWN -->
+                    <!-- BEGIN USER LOGIN DROPDOWN -->
+                    <li class="dropdown user" id="header-user">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img alt="" src={% static "img/avatars/avatar3.png" %} />
+                            <span class="username">Admin</span>
+                            <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#"><i class="fa fa-user"></i> My Profile</a></li>
+                            <li><a href="#"><i class="fa fa-cog"></i> Account Settings</a></li>
+                            <li><a href="#"><i class="fa fa-eye"></i> Privacy Settings</a></li>
+                            <li><a href="login.html"><i class="fa fa-power-off"></i> Log Out</a></li>
+                        </ul>
+                    </li>
+                    <!-- END USER LOGIN DROPDOWN -->
+                </ul>
+                <!-- END TOP NAVIGATION MENU -->
+        </div>
+        
+        <!-- TEAM STATUS -->
+        <div class="container team-status" id="team-status">
+          <div id="scrollbar">
+            <div class="handle">
+            </div>
+          </div>
+          <div id="teamslider">
+              <ul class="team-list">
+                <li class="current">
+                  <a href="javascript:void(0);">
+                  <span class="image">
+                      <img src={% static "img/avatars/avatar3.jpg" %} alt="" />
+                  </span>
+                  <span class="title">
+                    You
+                  </span>
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-success" style="width: 35%">
+                        <span class="sr-only">35% Complete (success)</span>
+                      </div>
+                      <div class="progress-bar progress-bar-warning" style="width: 20%">
+                        <span class="sr-only">20% Complete (warning)</span>
+                      </div>
+                      <div class="progress-bar progress-bar-danger" style="width: 10%">
+                        <span class="sr-only">10% Complete (danger)</span>
+                      </div>
+                    </div>
+                    <span class="status">
+                        <div class="field">
+                            <span class="badge badge-green">6</span> completed
+                            <span class="pull-right fa fa-check"></span>
+                        </div>
+                        <div class="field">
+                            <span class="badge badge-orange">3</span> in-progress
+                            <span class="pull-right fa fa-adjust"></span>
+                        </div>
+                        <div class="field">
+                            <span class="badge badge-red">1</span> pending
+                            <span class="pull-right fa fa-list-ul"></span>
+                        </div>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="javascript:void(0);">
+                  <span class="image">
+                      <img src={% static "img/avatars/avatar1.jpg" %} alt="" />
+                  </span>
+                  <span class="title">
+                    Max Doe
+                  </span>
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-success" style="width: 15%">
+                        <span class="sr-only">35% Complete (success)</span>
+                      </div>
+                      <div class="progress-bar progress-bar-warning" style="width: 40%">
+                        <span class="sr-only">20% Complete (warning)</span>
+                      </div>
+                      <div class="progress-bar progress-bar-danger" style="width: 20%">
+                        <span class="sr-only">10% Complete (danger)</span>
+                      </div>
+                    </div>
+                    <span class="status">
+                        <div class="field">
+                            <span class="badge badge-green">2</span> completed
+                            <span class="pull-right fa fa-check"></span>
+                        </div>
+                        <div class="field">
+                            <span class="badge badge-orange">8</span> in-progress
+                            <span class="pull-right fa fa-adjust"></span>
+                        </div>
+                        <div class="field">
+                            <span class="badge badge-red">4</span> pending
+                            <span class="pull-right fa fa-list-ul"></span>
+                        </div>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="javascript:void(0);">
+                  <span class="image">
+                      <img src={% static "img/avatars/avatar2.jpg" %} alt="" />
+                  </span>
+                  <span class="title">
+                    Jane Doe
+                  </span>
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-success" style="width: 65%">
+                        <span class="sr-only">35% Complete (success)</span>
+                      </div>
+                      <div class="progress-bar progress-bar-warning" style="width: 10%">
+                        <span class="sr-only">20% Complete (warning)</span>
+                      </div>
+                      <div class="progress-bar progress-bar-danger" style="width: 15%">
+                        <span class="sr-only">10% Complete (danger)</span>
+                      </div>
+                    </div>
+                    <span class="status">
+                        <div class="field">
+                            <span class="badge badge-green">10</span> completed
+                            <span class="pull-right fa fa-check"></span>
+                        </div>
+                        <div class="field">
+                            <span class="badge badge-orange">3</span> in-progress
+                            <span class="pull-right fa fa-adjust"></span>
+                        </div>
+                        <div class="field">
+                            <span class="badge badge-red">4</span> pending
+                            <span class="pull-right fa fa-list-ul"></span>
+                        </div>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="javascript:void(0);">
+                  <span class="image">
+                      <img src={% static "img/avatars/avatar4.jpg" %} alt="" />
+                  </span>
+                  <span class="title">
+                    Ellie Doe
+                  </span>
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-success" style="width: 5%">
+                        <span class="sr-only">35% Complete (success)</span>
+                      </div>
+                      <div class="progress-bar progress-bar-warning" style="width: 48%">
+                        <span class="sr-only">20% Complete (warning)</span>
+                      </div>
+                      <div class="progress-bar progress-bar-danger" style="width: 27%">
+                        <span class="sr-only">10% Complete (danger)</span>
+                      </div>
+                    </div>
+                    <span class="status">
+                        <div class="field">
+                            <span class="badge badge-green">1</span> completed
+                            <span class="pull-right fa fa-check"></span>
+                        </div>
+                        <div class="field">
+                            <span class="badge badge-orange">6</span> in-progress
+                            <span class="pull-right fa fa-adjust"></span>
+                        </div>
+                        <div class="field">
+                            <span class="badge badge-red">2</span> pending
+                            <span class="pull-right fa fa-list-ul"></span>
+                        </div>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="javascript:void(0);">
+                  <span class="image">
+                      <img src={% static "img/avatars/avatar5.jpg" %} alt="" />
+                  </span>
+                  <span class="title">
+                    Lisa Doe
+                  </span>
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-success" style="width: 21%">
+                        <span class="sr-only">35% Complete (success)</span>
+                      </div>
+                      <div class="progress-bar progress-bar-warning" style="width: 20%">
+                        <span class="sr-only">20% Complete (warning)</span>
+                      </div>
+                      <div class="progress-bar progress-bar-danger" style="width: 40%">
+                        <span class="sr-only">10% Complete (danger)</span>
+                      </div>
+                    </div>
+                    <span class="status">
+                        <div class="field">
+                            <span class="badge badge-green">4</span> completed
+                            <span class="pull-right fa fa-check"></span>
+                        </div>
+                        <div class="field">
+                            <span class="badge badge-orange">5</span> in-progress
+                            <span class="pull-right fa fa-adjust"></span>
+                        </div>
+                        <div class="field">
+                            <span class="badge badge-red">9</span> pending
+                            <span class="pull-right fa fa-list-ul"></span>
+                        </div>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="javascript:void(0);">
+                  <span class="image">
+                      <img src={% static "img/avatars/avatar6.jpg" %} alt="" />
+                  </span>
+                  <span class="title">
+                    Kelly Doe
+                  </span>
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-success" style="width: 45%">
+                        <span class="sr-only">35% Complete (success)</span>
+                      </div>
+                      <div class="progress-bar progress-bar-warning" style="width: 21%">
+                        <span class="sr-only">20% Complete (warning)</span>
+                      </div>
+                      <div class="progress-bar progress-bar-danger" style="width: 10%">
+                        <span class="sr-only">10% Complete (danger)</span>
+                      </div>
+                    </div>
+                    <span class="status">
+                        <div class="field">
+                            <span class="badge badge-green">6</span> completed
+                            <span class="pull-right fa fa-check"></span>
+                        </div>
+                        <div class="field">
+                            <span class="badge badge-orange">3</span> in-progress
+                            <span class="pull-right fa fa-adjust"></span>
+                        </div>
+                        <div class="field">
+                            <span class="badge badge-red">1</span> pending
+                            <span class="pull-right fa fa-list-ul"></span>
+                        </div>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="javascript:void(0);">
+                  <span class="image">
+                      <img src={% static "img/avatars/avatar7.jpg" %} alt="" />
+                  </span>
+                  <span class="title">
+                    Jessy Doe
+                  </span>
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-success" style="width: 7%">
+                        <span class="sr-only">35% Complete (success)</span>
+                      </div>
+                      <div class="progress-bar progress-bar-warning" style="width: 30%">
+                        <span class="sr-only">20% Complete (warning)</span>
+                      </div>
+                      <div class="progress-bar progress-bar-danger" style="width: 10%">
+                        <span class="sr-only">10% Complete (danger)</span>
+                      </div>
+                    </div>
+                    <span class="status">
+                        <div class="field">
+                            <span class="badge badge-green">1</span> completed
+                            <span class="pull-right fa fa-check"></span>
+                        </div>
+                        <div class="field">
+                            <span class="badge badge-orange">6</span> in-progress
+                            <span class="pull-right fa fa-adjust"></span>
+                        </div>
+                        <div class="field">
+                            <span class="badge badge-red">2</span> pending
+                            <span class="pull-right fa fa-list-ul"></span>
+                        </div>
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a href="javascript:void(0);">
+                  <span class="image">
+                      <img src={% static "img/avatars/avatar8.jpg" %} alt="" />
+                  </span>
+                  <span class="title">
+                    Debby Doe
+                  </span>
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-success" style="width: 70%">
+                        <span class="sr-only">35% Complete (success)</span>
+                      </div>
+                      <div class="progress-bar progress-bar-warning" style="width: 20%">
+                        <span class="sr-only">20% Complete (warning)</span>
+                      </div>
+                      <div class="progress-bar progress-bar-danger" style="width: 5%">
+                        <span class="sr-only">10% Complete (danger)</span>
+                      </div>
+                    </div>
+                    <span class="status">
+                        <div class="field">
+                            <span class="badge badge-green">13</span> completed
+                            <span class="pull-right fa fa-check"></span>
+                        </div>
+                        <div class="field">
+                            <span class="badge badge-orange">7</span> in-progress
+                            <span class="pull-right fa fa-adjust"></span>
+                        </div>
+                        <div class="field">
+                            <span class="badge badge-red">1</span> pending
+                            <span class="pull-right fa fa-list-ul"></span>
+                        </div>
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        <!-- /TEAM STATUS -->
+    </header>
+    <!--/HEADER -->
+    
+    <!-- PAGE -->
+    <section id="page">
+                <!-- SIDEBAR -->
+                <div id="sidebar" class="sidebar">
+                    <div class="sidebar-menu nav-collapse">
+                        <div class="divide-20"></div>
+                        <!-- SEARCH BAR -->
+                        <div id="search-bar">
+                            <input class="search" type="text" placeholder="Search"><i class="fa fa-search search-icon"></i>
+                        </div>
+                        <!-- /SEARCH BAR -->
+                        
+                        <!-- SIDEBAR QUICK-LAUNCH -->
+                        <!-- <div id="quicklaunch">
+                        <!-- /SIDEBAR QUICK-LAUNCH -->
+                        
+                        
+                  
+                    </div>
+                </div>
+                <!-- /SIDEBAR -->
+        <div id="main-content">
+            <!-- SAMPLE BOX CONFIGURATION MODAL FORM-->
+            <div class="modal fade" id="box-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title">Box Settings</h4>
+                    </div>
+                    <div class="modal-body">
+                      Here goes box setting content.
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                  </div>
+                </div>
+      </div>
+            <!-- /BOX FORM-->
+            <div class="container">
+                <div class="row">
+                
+                    <div id="content" class="col-lg-12">
+                        <!-- PAGE HEADER-->
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="page-header">
+                                    <!-- STYLER -->
+                                    
+                                    <!-- /STYLER -->
+                                    <!-- BREADCRUMBS -->
+                                    <ul class="breadcrumb">
+                                        <li>
+                                            <i class="fa fa-home"></i>
+                                            <a href="/">Home</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Form Elements</a>
+                                        </li>
+                                        <li>Forms</li>
+                                    </ul>
+                                    <!-- /BREADCRUMBS -->
+                                    <div class="clearfix">
+                                        <h3 class="content-title center-block">RFQ</h3>
+                                    </div>
+                                    
+                                
+                            
+                        
+                        <!-- /PAGE HEADER -->
+                        <!-- FORMS -->
+                        <div class="row">
+                        
+                            <div class="col-md-12">
+                            
+                                <div class="row">
+                                                                        
+                                    <div class="col-md-12">
+                                        <div class="box border primary">
+                                            <div align="center" class="box-title">
+                                                <h4><i></i>REQUEST FOR QUOTE</h4>
+                                                <div class="tools hidden-xs">
+                                                    </div>
+                                            </div>
+                                            <div class="box-body big" style="padding-right: 20; padding-left:0;">
+                                                
+        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal" role="form" style="padding-right:10%; width:40%;" >
+        {% csrf_token %}
+
+                                                  
+
+             {% for field in  enrty_form.visible_fields %}
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label" >{{field.field.label}}:</label> 
+                        <div class="col-sm-7">
+                        {{field}} {{field.errors}}
+                        </div>
+                    </div>
+             {% endfor %}
+
+    <h2>Add Items</h2>
+    {{ items_formset.management_form }}
+
+
+    {% for form in items_formset.forms %}
+    <div class="item">
+        {% for field in  form.visible_fields %}
+        <div class="form-group">
+            <label class="col-sm-5 control-label" >{{field.field.label}}:</label> 
+            <div class="col-sm-7">{{field}} {{field.errors}}</div>
+            
+        </div>
+        {% endfor %}
+    <p style=""><a class="delete" href="#">Delete</a></p>
+    </div>
+    {% endfor %}
+    
+    <p><a id="add" href="#">Add another item</a></p>
+
+        <div style="text-align: center;">
+           <div class="viewable main-body">
+              <div id="divSource">
+                <table class="appendGrid ui-widget" id="tblAppendGrid"></table>
+                  <div style="border-left-width: 1px;
+                     padding-top: 8px;
+                     margin-top: 10px;padding-left: 15px;
+                     padding-right: 15px;
+                     margin-left: 35%;"> 
+                     
+         <button class="btn btn-primary" type="submit">Submit</button>                                                 
+        </div>
+
+           
+        </div>
+        </div>
+        </div>
+      </form>
+        </div>
+       </div>
+        </div>
+        </div>
+        </div>
+        </div>
+
+
+
+    <script src= {% static "js/jquery-ui-1.10.3.custom/js/jquery-1.9.1.js" %}></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.js"></script>
+    <script src= {% static "Content/css/jquery-ui/jquery-ui-1.10.2.custom.css" %}></script>    
+    <script src={% static "js/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js" %} ></script>
+    <script src={% static "js/appendGrid/jquery.appendGrid-1.4.1.js" %}></script>
+    <script src= {% static "js/jquery-validate/jquery.validate.min.js" %}></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+    <script id="jsSource.js" type="text/javascript">
+
+    /*$(function () {
+        // Initialize appendGrid
+        $('#tblAppendGrid').appendGrid({
+            initRows: 1,
+            columns: [
+                    { name: 'Item', display: 'Item', type: 'select', ctrlOptions: { 0: '', 1: 'prawn', 2: 'Fish', 3: 'Shell', 4: 'Rice', 5: 'meat', 6: 'Others'} },
+                    { name: 'Size', display: 'Size', type: 'select',  ctrlOptions: { 0: '', 1: '10', 2: '20', 3: '30', 4: '40', 5: '550', 6: '60',7: 'Others'} },
+                    { name: 'Pack', display: 'Pack', type: 'select', ctrlOptions: { 0: '', 1: '1 ', 2: '2', 3: '3', 4: '4', 5: '5', 6: 'Others'} },
+                    { name: 'Brand', display: 'Brand', type: 'select', ctrlOptions: { 0: '', 1: 'Choice', 2: 'Skyline', 3: 'Dreams', 4: 'Confident', 5: 'Dent', 6: 'Others'} },
+                    
+                    { name: 'Cases', display: 'Cases', type: 'text', ctrlAttr: { maxlength: 10 }, ctrlCss: { width: '100%','text-align': 'right' }},
+                    { name: 'Qty', display: 'QTY', type: 'text', ctrlAttr: { maxlength: 100 }, ctrlCss: { width: '100%'} },
+                ]
+        });
+                    
+    });*/
+
+    $(document).ready(function () {
+    // Code adapted from http://djangosnippets.org/snippets/1389/  
+    function updateElementIndex(el, prefix, ndx) {
+        var id_regex = new RegExp('(' + prefix + '-\\d+-)');
+        var replacement = prefix + '-' + ndx + '-';
+        if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex,
+        replacement));
+        if (el.id) el.id = el.id.replace(id_regex, replacement);
+        if (el.name) el.name = el.name.replace(id_regex, replacement);
+    }
+
+    function deleteForm(btn, prefix) {
+        var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+        if (formCount > 1) {
+            // Delete the item/form
+            $(btn).parents('.item').remove();
+            var forms = $('.item'); // Get all the forms  
+            // Update the total number of forms (1 less than before)
+            $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+            var i = 0;
+            // Go through the forms and set their indices, names and IDs
+            for (formCount = forms.length; i < formCount; i++) {
+                $(forms.get(i)).children().children().each(function () {
+                    if ($(this).attr('type') == 'text') updateElementIndex(this, prefix, i);
+                });
+            }
+        } // End if
+        else {
+            alert("You have to atleast add 1 item!");
+        }
+        return false;
+    }
+
+    function addForm(btn, prefix) {
+        var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+        // You can only submit a maximum of 10 todo items 
+        if (formCount < 10) {
+            // Clone a form (without event handlers) from the first form
+            var row = $(".item:first").clone(false).get(0);
+            // Insert it after the last form
+            $(row).removeAttr('id').hide().insertAfter(".item:last").slideDown(300);
+
+            // Remove the bits we don't want in the new row/form
+            // e.g. error messages
+            $(".errorlist", row).remove();
+            $(row).children().removeClass("error");
+
+            // Relabel or rename all the relevant bits
+            $(row).children().children().each(function () {
+                updateElementIndex(this, prefix, formCount);
+                $(this).val("");
+            });
+
+            // Add an event handler for the delete item/form link 
+            $(row).find(".delete").click(function () {
+                return deleteForm(this, prefix);
+            });
+            // Update the total form count
+            $("#id_" + prefix + "-TOTAL_FORMS").val(formCount + 1);
+        } // End if
+        else {
+            alert("Sorry, you can only enter a maximum of ten items.");
+        }
+        return false;
+    }
+    // Register the click event handlers
+    $("#add").click(function () {
+        return addForm(this, "form");
+    });
+
+    $(".delete").click(function () {
+        alert('asd');
+        return deleteForm(this, "form");
+    });
+    });
+</script>
+
+ <script>
+       $(document).ready(function(e) {
+       $(document).mousemove(function(e) {
+         $(".insert").addClass('fa fa-plus');
+         $(".remove").addClass('fa fa-times');
+  });
+   
+});
+    
+</script>
+</body>
+</html>
