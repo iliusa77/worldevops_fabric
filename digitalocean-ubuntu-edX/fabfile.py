@@ -12,8 +12,8 @@ import fabtools
 def setup_system():
 	sudo('apt-get update')
 	fabtools.require.deb.packages([
-        'build-essential', 'software-properties-common', 'python-software-properties',
-        'curl', 'git-core', 'libxml2-dev', 'libxslt1-dev', 'libfreetype6-dev',
+        'build-essential', 'software-properties-common', 'software-properties-common',
+        'curl', 'git-core', 'libxml2-dev', 'libxslt1-dev', 'libfreetype6-dev', 'python',
         'python-pip', 'python-apt', 'python-dev', 'libxmlsec1-dev', 'swig', 'libmysqlclient-dev'
     ])
 
@@ -35,8 +35,8 @@ def setup():
         sudo('git clone https://github.com/edx/configuration')
     with cd('/var/tmp/configuration'):
     	sudo('pip install -r requirements.txt')
-        sudo('pip install setuptools --upgrade')
+        # sudo('pip install setuptools --upgrade')
     with cd('/var/tmp/configuration/playbooks'):
         sudo('ansible-playbook -c local ./edx_sandbox.yml -i "localhost,"')
-	report()
+	# report()
 

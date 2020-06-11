@@ -6,6 +6,13 @@ import fabtools
 def fix_dpkg():
     sudo('apt-get -y -f install')
 
+def setup_system():
+	sudo('apt-get update')
+	fabtools.require.deb.packages([
+        'build-essential', 'software-properties-common', 'software-properties-common',
+        'curl', 'git-core', 'libxml2-dev', 'libxslt1-dev', 'libfreetype6-dev', 'python',
+        'python-pip', 'python-apt', 'python-dev', 'libxmlsec1-dev', 'swig', 'libmysqlclient-dev'
+    ])
 
 def genpass():
     from random import choice
