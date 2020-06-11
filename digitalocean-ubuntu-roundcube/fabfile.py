@@ -88,7 +88,9 @@ def configure_nginx():
                        port=80,
                        docroot=env.project_dir
                        )
+    sudo("rm -rf /etc/nginx/sites-enabled/roundcube && mv /etc/nginx/sites-available/roundcube.conf /etc/nginx/sites-available/roundcube && ln -s /etc/nginx/sites-available/roundcube /etc/nginx/sites-enabled/roundcube && rm -rf /etc/nginx/sites-enabled/roundcube.conf")                   
     require.nginx.enabled(env.project)
+    
 
 
 def credentials():
@@ -206,7 +208,7 @@ def setup_nginx_mysql():
     sudo("apt-get update && apt-get -y dist-upgrade")
     fabtools.require.nginx.server()
     print(blue('Nginx installed'))
-    require.deb.packages(["php5-fpm", "php5-mysql", "php5-intl", "php5-ldap", "php5-cli"])
+    require.deb.packages(["php-fpm", "php-mysql", "php-intl", "php-ldap", "php-cli"])
     print(blue('PHP installed'))
     install_mysql()
     print(blue('MySQL installed'))
