@@ -32,11 +32,11 @@ def setup():
     sudo('pip install --upgrade pip')
     sudo('pip install --upgrade virtualenv')
     with cd('/var/tmp'):
-        sudo('git clone https://github.com/edx/configuration')
+        sudo('git clone https://github.com/edx/configuration.git')
     with cd('/var/tmp/configuration'):
     	sudo('pip install -r requirements.txt')
-        # sudo('pip install setuptools --upgrade')
+        sudo('pip install setuptools --upgrade')
     with cd('/var/tmp/configuration/playbooks'):
         sudo('ansible-playbook -c local ./edx_sandbox.yml -i "localhost,"')
-	# report()
+	report()
 
