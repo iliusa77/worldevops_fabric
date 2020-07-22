@@ -18,11 +18,11 @@ class FabricException(Exception):
 env.hosts = [
 ]
 
-env.user = 'vision'
-env.project = 'vision'
+env.user = 'sion'
+env.project = 'sion'
 
-env.backup_host = '158.69.182.53'
-env.backup_user = 'vision'
+env.backup_host = '156.69.187.54'
+env.backup_user = 'sion'
 env.backup_path = '/backup'
 
 env.ssh = '/home/%s/.ssh' % env.user
@@ -82,15 +82,15 @@ def create_droplet():
 
     import digitalocean
     droplet = digitalocean.Droplet(
-        token="ab048e692549b544b69dff97c88f61d7c336a2d56ee749ca9f8c9cf37973c652",
+        token="ab048e69254e749ca9f8c9cf37973c652",
         name=env.project,
-        region='nyc2',  # New York 2
+        region='nyc1',  # New York 1
         image='ubuntu-14-04-x64',  # Ubuntu 14.04 x64
         size_slug='512mb',  # 512MB
         backups=False
     )
 
-    key = open('/Users/vasilii-pascal/.ssh/id_rsa.pub')
+    key = open('/Users/user/.ssh/id_rsa.pub')
     pub = key.read()
     droplet.ssh_keys = [pub,]
     droplet.create()
